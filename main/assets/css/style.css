@@ -1,0 +1,73 @@
+body {
+    height: 100vh;
+}
+
+video#bgvid { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background: url(polina.jpg) no-repeat;
+    background-size: cover; 
+}
+.valign-wrapper {
+    border: 2px solid red;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-weight: normal;
+    font-family: 'Permanent Marker', cursive;
+    color: aliceblue;
+}
+
+h1 {
+    font-family: 'Cuprum', sans-serif;
+    font-size: 7rem;
+    margin-bottom: 0;
+}
+
+h4 {
+    margin-top: -1rem;
+}
+
+#and {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 5rem;
+}
+
+#form-box {
+    margin-top: 8rem;
+    font-family: 'Cuprum', sans-serif; 
+/*    background-color: rgba(240, 248, 255, 0.6);*/
+    color: darkslateblue;
+    padding: 1rem;
+    border-radius: 2px;
+    max-width: 30%;
+}
+
+#brand_name,
+#location,
+::placeholder {
+   size: 4rem;
+   font-weight: bold;
+   color: darkslateblue;
+   text-align: center;
+}
+
+#main_button {
+    color: deeppink;
+    background-color: rgba(240, 248, 255, 0.65);
+    font-weight: bold;
+}
