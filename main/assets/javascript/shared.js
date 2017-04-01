@@ -4,8 +4,7 @@ function spotifySearch(searchQuery,artist, albums,track) {
     var artistType = artist || "";
     var albumType = albums  || "";
     var trackType = track   || "";
-
-    // var strippedQuery = _.trim(searchQuery);
+    
     var strippedQuery = _.replace(_.trim(searchQuery), " ","+");
 
     $.ajax({
