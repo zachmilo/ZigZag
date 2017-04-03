@@ -3,7 +3,7 @@ TO INTALL DEPENDENCIES GO TO REPO AND DO "npm install"
 #Below is the currently installed packages 
 
 
-
+```
 {
   "name": "zigzag",
   "version": "1.0.0",
@@ -30,3 +30,4 @@ TO INTALL DEPENDENCIES GO TO REPO AND DO "npm install"
     "mocha": "^3.2.0"
   }
 }
+```
