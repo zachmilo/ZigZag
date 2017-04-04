@@ -1,0 +1,158 @@
+body {
+    height: 100vh;
+    background-color: aliceblue;
+    font-family: 'Cuprum', sans-serif; 
+}
+
+.valign-wrapper {
+    border: 1px solid red;
+}
+
+video#bgvid { 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    background: url(polina.jpg) no-repeat;
+    background-size: cover; 
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-weight: normal;
+    font-family: 'Permanent Marker', cursive;
+    color: aliceblue;
+}
+
+h1,
+.brand-logo {
+    font-family: 'Cuprum', sans-serif;
+    font-size: 7rem;
+    margin-bottom: 0;
+}
+
+.brand-logo {
+    margin-left: 1rem;
+}
+
+.brand-logo span {
+    font-family: 'Permanent Marker', cursive;
+
+}
+
+h4 {
+    margin-top: -1rem;
+}
+
+#and {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 5rem;
+}
+
+#form-box {
+    margin-top: 8rem;
+/*    font-family: 'Cuprum', sans-serif; */
+/*    background-color: rgba(240, 248, 255, 0.6);*/
+    color: darkslateblue;
+    padding: 1rem;
+    border-radius: 2px;
+    max-width: 33%;
+}
+
+#band_name,
+#location,
+::placeholder {
+   size: 4rem;
+   font-weight: bold;
+   color: darkslateblue;
+   text-align: center;
+}
+
+#main_button {
+    color: deeppink;
+    background-color: rgba(240, 248, 255, 0.65);
+    font-weight: bold;
+}
+
+.nav-wrapper {
+    background-color: darkslateblue;
+    color: aliceblue;
+}
+
+.nav-wrapper ::placeholder {
+    color: aliceblue;
+    font-weight: normal;
+}
+#new_band_name,
+#new_location,
+#start_date,
+#end_date {
+    text-align: center;
+    font-family: 'Cuprum', sans-serif;
+}
+
+.results h5 {
+    color: #3E380F;
+    font-weight: normal;
+/*    border-bottom: 2px solid #3E380F;*/
+    text-decoration: underline;
+}
+
+.results p,
+.results th,
+.results td {
+    color: #8B813D;
+    font-weight: normal;
+    font-family: 'Cuprum', sans-serif;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.results th {
+    padding-bottom: 0;
+}
+
+.results td {
+    padding-bottom: .25rem;
+}
+
+.results p {
+    font-weight: bold;
+    padding-left: .4rem;
+}
+
+.band_div {
+  padding-bottom: 2rem;
+  -webkit-box-shadow: 0 8px 6px -6px #3E380F;
+  -moz-box-shadow: 0 8px 6px -6px #3E380F;
+  box-shadow: 0 8px 6px -6px #3E380F;
+}
+
+.card-title {
+        font-family: 'Permanent Marker', cursive;
+}
+
+.pink {
+    background-color: deeppink;
+}
+
+.card .card-reveal {
+    top: 70%;
+    height: 40%;
+    background-color: transparent;
+}
+
+.text-white {
+    color: white;
+}

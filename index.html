@@ -2,17 +2,45 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>zigzag</title>
-        <link rel="stylesheet" type="text/css" href="node_modules/materialize-css/dist/css/materialize.min.css  ">
+        <title>Hear and Now</title>
+        <link href="https://fonts.googleapis.com/css?family=Cuprum|Permanent+Marker" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="node_modules/materialize-css/dist/css/materialize.min.css" media="screen,projection"/>
+        <link rel="stylesheet" type="text/css" href="main/assets/css/style.css">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
-
+        <video playsinline autoplay muted loop poster="hero.png" id="bgvid">
+            <source src="main/assets/media/videos/632333283.webm" type="video/webm">
+            <source src="main/assets/media/videos/632333283.mp4" type="video/mp4">
+        </video>
+    <div class='container'>
+        <div class='row'>
+            <div class='col s12'>
+                <h1 class='center-align'>HEAR <span id='and'>&</span> NOW</h1>
+                <h4 class='center-align'>Find bands playing near you</h4>
+            </div>
+        </div>
+    </div>
+    <div class='container' id='form-box'>
+        <div class="row">
+            <div class="input-field col s12">
+              <input value="" id="band_name" type="text" class="validate" placeholder="BAND NAME">
+            </div>
+            <div class="input-field col s12">
+              <input value="" id="location" type="text" class="validate" placeholder="LOCATION">
+            </div>
+            <a class="waves-effect waves-light btn" href='results2.html' id='main_button'>GO!</a>
+        </div>
+    </div>
     </body>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
     <script src="node_modules/lodash/lodash.js"></script>
     <script src="node_modules/mocha/mocha.js"></script>
     <script src="../config.json"></script>
+    <script src="main/assets/javascript/shared.js"></script>
     <script src="main/assets/javascript/app.js"></script>
+
 
 </html>
