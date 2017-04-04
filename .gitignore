@@ -40,11 +40,6 @@ Thumbs.db
 ###############
 node_modules/*
 
-
-
-
 # Config #
 #########
 config.js
-
-

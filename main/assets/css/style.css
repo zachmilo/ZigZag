@@ -1,14 +1,14 @@
 body {
     height: 100vh;
     background-color: aliceblue;
-    font-family: 'Cuprum', sans-serif; 
+    font-family: 'Cuprum', sans-serif;
 }
 
 .valign-wrapper {
     border: 1px solid red;
 }
 
-video#bgvid { 
+video#bgvid {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -22,7 +22,7 @@ video#bgvid {
     -webkit-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
     background: url(polina.jpg) no-repeat;
-    background-size: cover; 
+    background-size: cover;
 }
 
 h1,
@@ -62,8 +62,6 @@ h4 {
 
 #form-box {
     margin-top: 8rem;
-/*    font-family: 'Cuprum', sans-serif; */
-/*    background-color: rgba(240, 248, 255, 0.6);*/
     color: darkslateblue;
     padding: 1rem;
     border-radius: 2px;
@@ -94,12 +92,14 @@ h4 {
     color: aliceblue;
     font-weight: normal;
 }
+
 #new_band_name,
 #new_location,
 #start_date,
 #end_date {
-    text-align: center;
+    text-align: left;
     font-family: 'Cuprum', sans-serif;
+    color: darkslateblue;
 }
 
 .results h5 {
@@ -147,6 +147,10 @@ h4 {
     background-color: deeppink;
 }
 
+.golden {
+    background-color: #8B813D;
+}
+
 .card .card-reveal {
     top: 70%;
     height: 40%;
@@ -155,4 +159,23 @@ h4 {
 
 .text-white {
     color: white;
+}
+
+ul.card-action-buttons {
+    margin: -26px 10px 0 0;
+    text-align: right;
+}
+
+ul.card-action-buttons li {
+    display: inline-block;
+    padding-left: 5px;
+}
+
+#search_dropdown {
+    top: ;
+   width: 250px;
+}
+
+#search_dropdown li {
+    width: 250px;
 }
