@@ -10,11 +10,17 @@
          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
+        <ul id="search_dropdown" class="dropdown-content">
+            <li><input value="" id="new_location" type="text" class="validate" placeholder="LOCATION"></li>
+            <li><input value="" id="new_band_name" type="text" class="validate" placeholder="BAND NAME"></li>
+            <li><input value="" id="start_date" type="date" class="validate" placeholder="START DATE"></li>
+            <li><input value="" id="end_date" type="date" class="validate" placeholder="END DATE"></li>
+        </ul>
       <nav>
         <div class="nav-wrapper">
           <a href="#" class="brand-logo">HEAR <span>&</span> NOW</a>
           <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a href="#"><i class="material-icons left">search</i>SEARCH</a></li>
+              <li><a href="#!" class='dropdown-button' data-activates="search_dropdown"><i class="material-icons left">search</i>SEARCH</a></li>
               <li><a href="#"><i class="material-icons left">perm_identity</i>SIGN IN</a></li>
    <!--          <li><input value="" id="new_location" type="text" class="validate" placeholder="LOCATION"></li>
             <li><input value="" id="new_band_name" type="text" class="validate" placeholder="BAND NAME"></li>
@@ -22,10 +28,10 @@
             <li><input value="" id="end_date" type="date" class="validate datepicker" placeholder="END DATE"></li> -->
           </ul>
             <ul id="nav-mobile" class="right hide-on-med-and-up">
-              <li><a href="#"><i class="material-icons left">perm_identity</i></a></li>
+              <li><a href="#" class='waves-effect waves-light'><i class="material-icons left">perm_identity</i></a></li>
           </ul>
           <ul id="nav-mobile" class="left hide-on-med-and-up">
-              <li><a href="#"><i class="material-icons left">search</i></a></li>
+              <li><a href="#" class='waves-effect waves-light'><i class="material-icons left">search</i></a></li>
           </ul>
             <ul id="nav-mobile" class="right hide-on-large-only hide-on-small-only">
               <li><a href="#"><i class="material-icons left">perm_identity</i>SIGN IN</a></li>
@@ -40,8 +46,10 @@
               <div class="card hoverable">
                 <div class="card-image">
                   <img src='main/assets/media/images/band_of_horses.jpg'>
-              <!--     <a class='star btn-floating'><i class='material-icons'>stars</i></a> -->
-                  <a class="btn-floating halfway-fab waves-effect waves-light pink activator"><i class="material-icons">queue_music</i></a>
+                  <ul class="card-action-buttons">
+                    <li><a class="btn-floating pink favorite"><i class='material-icons'>favorite</i></a></li>
+                    <li><a class="btn-floating amber darken-1 spotify activator"><i class="material-icons">volume_up</i></a></li> 
+                </ul>
                 </div>
                 <div class="card-content">
                   <span class="card-title">Band of Horses</span>
@@ -49,7 +57,7 @@
                 </div>
                 <div class="card-reveal">
                   <span class="card-title grey-text text-darken-4"><i class="material-icons right text-white">close</i></span>
-                  <iframe src="http://embed.spotify.com/?uri=spotify%3Auser%3Aspotify%3Aplaylist%3A2PXdUld4Ueio2pHcB6sM8j&theme=white" width="100%" height="80" frameborder="0" allowtransparency="true"></iframe>
+                  <iframe src="http://embed.spotify.com/?uri=spotify activator%3Auser%3Aspotify activator%3Aplaylist%3A2PXdUld4Ueio2pHcB6sM8j&theme=white" width="100%" height="80" frameborder="0" allowtransparency="true"></iframe>
                 </div>
               </div>
             </div>
@@ -57,7 +65,10 @@
               <div class="card hoverable">
                 <div class="card-image">
                   <img src='main/assets/media/images/the_shins.jpg'>
-                  <a class="btn-floating halfway-fab waves-effect waves-light pink activator"><i class="material-icons">radio</i></a>
+                  <ul class="card-action-buttons">
+                    <li><a class="btn-floating pink favorite"><i class='material-icons'>favorite</i></a></li>
+                    <li><a class="btn-floating amber darken-1 spotify activator"><i class="material-icons">volume_up</i></a></li> 
+                </ul>
                 </div>
                 <div class="card-content">
                   <span class="card-title">The Shins</span>
@@ -65,7 +76,7 @@
                 </div>
                 <div class="card-reveal">
                   <span class="card-title grey-text text-darken-4"><i class="material-icons right text-white">close</i></span>
-                  <iframe src="http://embed.spotify.com/?uri=spotify%3Auser%3Aspotify%3Aplaylist%3A2PXdUld4Ueio2pHcB6sM8j&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+                  <iframe src="http://embed.spotify.com/?uri=spotify activator%3Auser%3Aspotify activator%3Aplaylist%3A2PXdUld4Ueio2pHcB6sM8j&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
                 </div>
               </div>
             </div>
@@ -73,7 +84,10 @@
               <div class="card hoverable">
                 <div class="card-image">
                   <img src='main/assets/media/images/white_denim.jpg'>
-                  <a class="btn-floating halfway-fab waves-effect waves-light pink activator"><i class="material-icons">volume_up</i></a>
+                <ul class="card-action-buttons">
+                    <li><a class="btn-floating pink favorite"><i class='material-icons'>favorite</i></a></li>
+                    <li><a class="btn-floating amber darken-1 spotify activator"><i class="material-icons">volume_up</i></a></li> 
+                </ul>
                 </div>
                 <div class="card-content">
                   <span class="card-title">White Denim</span>
@@ -82,7 +96,7 @@
                 </div>
                 <div class="card-reveal">
                   <span class="card-title grey-text text-darken-4"><i class="material-icons right text-white">close</i></span>
-                  <iframe src="http://embed.spotify.com/?uri=spotify%3Auser%3Aspotify%3Aplaylist%3A2PXdUld4Ueio2pHcB6sM8j&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+                  <iframe src="http://embed.spotify.com/?uri=spotify activator%3Auser%3Aspotify activator%3Aplaylist%3A2PXdUld4Ueio2pHcB6sM8j&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
                 </div>
               </div>
             </div>
@@ -90,7 +104,10 @@
               <div class="card hoverable">
                 <div class="card-image">
                   <img src='main/assets/media/images/parquet_courts.jpg'>
-                  <a class="btn-floating halfway-fab waves-effect waves-light pink"><i class="material-icons">play_arrow</i></a>
+                  <ul class="card-action-buttons">
+                    <li><a class="btn-floating pink favorite"><i class='material-icons'>favorite</i></a></li>
+                    <li><a class="btn-floating amber darken-1 spotify activator"><i class="material-icons">volume_up</i></a></li> 
+                </ul>
                 </div>
                 <div class="card-content">
                     <span class="card-title">Parquet Courts</span>
@@ -102,7 +119,10 @@
               <div class="card hoverable">
                 <div class="card-image">
                   <img src='main/assets/media/images/fleet_foxes.jpg'>
-                  <a class="btn-floating halfway-fab waves-effect waves-light pink"><i class="material-icons">play_circle_outline</i></a>
+                  <ul class="card-action-buttons">
+                    <li><a class="btn-floating pink favorite"><i class='material-icons'>favorite</i></a></li>
+                    <li><a class="btn-floating amber darken-1 spotify activator"><i class="material-icons">volume_up</i></a></li> 
+                </ul>
                 </div>
                 <div class="card-content">
                   <span class="card-title">Fleet Foxes</span>
@@ -114,7 +134,10 @@
               <div class="card hoverable">
                 <div class="card-image">
                   <img src='main/assets/media/images/twin_peaks.jpg'>
-                  <a class="btn-floating halfway-fab waves-effect waves-light pink"><i class="material-icons">play_circle_filled</i></a>
+                  <ul class="card-action-buttons">
+                    <li><a class="btn-floating pink favorite"><i class='material-icons'>favorite</i></a></li>
+                    <li><a class="btn-floating amber darken-1 spotify activator"><i class="material-icons">volume_up</i></a></li> 
+                </ul>
                 </div>
                 <div class="card-content">
                     <span class="card-title">Twin Peaks</span>
@@ -128,7 +151,10 @@
               <div class="card hoverable">
                 <div class="card-image">
                   <img src='main/assets/media/images/local_natives.jpg'>
-                  <a class="btn-floating halfway-fab waves-effect waves-light pink"><i class="material-icons">play_circle_outline</i></a>
+                  <ul class="card-action-buttons">
+                    <li><a class="btn-floating pink favorite"><i class='material-icons'>favorite</i></a></li>
+                    <li><a class="btn-floating amber darken-1 spotify activator"><i class="material-icons">volume_up</i></a></li> 
+                </ul>
                 </div>
                 <div class="card-content">
                   <span class="card-title">Local Natives</span>
@@ -140,7 +166,10 @@
               <div class="card hoverable">
                 <div class="card-image">
                   <img src='main/assets/media/images/death_cab_for_cutie.jpg'>
-                  <a class="btn-floating halfway-fab waves-effect waves-light pink"><i class="material-icons">play_circle_outline</i></a>
+                  <ul class="card-action-buttons">
+                    <li><a class="btn-floating pink favorite"><i class='material-icons'>favorite</i></a></li>
+                    <li><a class="btn-floating amber darken-1 spotify activator"><i class="material-icons">volume_up</i></a></li> 
+                </ul>
                 </div>
                 <div class="card-content">
                   <span class="card-title">Death Cab for Cutie</span>
@@ -151,7 +180,7 @@
         </div>
     </body>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
+    <script src="node_modules/materialize-css/dist/js/materialize.js"></script>
     <script src='main/assets/javascript/masonry.pkgd.min.js'></script>
     <script src='main/assets/javascript/masonry_init.js'></script>
     <script src="node_modules/lodash/lodash.js"></script>
@@ -159,8 +188,9 @@
 
     <script>
         $(function() {
-            //pulse effect for spotify playlist button
-            $('.card-image .btn-floating').on('mouseenter', function() {
+            $(".dropdown-button").dropdown();
+            //pulse effect for spotify activator playlist button
+            $('.card-action-buttons a').on('mouseenter', function() {
                 $(this).addClass('pulse');
             }).on('mouseleave', function() {
                 $(this).removeClass('pulse');
