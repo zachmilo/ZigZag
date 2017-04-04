@@ -111,7 +111,7 @@ var zipcode = 27502;
 var userLat = false;
 var userLon = false;
 var eventIndex = 0; 
-var bandName = "carbon leaf";
+var bandName = "Bruno Mars";
 var closeEvents = [];
 var eventsOrdered = [];
 var relatedBands = [];
@@ -220,8 +220,8 @@ function distance() {
                     
                     var timeFormat = moment(closeEvents[0].events[eventIndex].datetime_local).format("h:mma ddd, MMM DD");
 
+                    var eventObj = closeEvents[0].events[eventIndex];                    
 
-                    var eventObj = closeEvents[0].events[eventIndex];
                     eventObj.date_format = timeFormat; 
 
                     eventObj.distance = response.rows[0].elements[0].distance.text;
