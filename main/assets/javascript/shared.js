@@ -1,32 +1,32 @@
 "use strict"
 /*
-* Allow you to search spotify api.
-* This search can do artist, albums, and track
-* returns: the search results
+ * Allow you to search spotify api.
+ * This search can do artist, albums, and track
+ * returns: the search results
  */
 
 
 function spotifySearch(searchQuery) {
 
-    var buildQuery = _.replace(_.trim(searchQuery), " ","+");
+    var buildQuery = _.replace(_.trim(searchQuery), " ", "+");
 
     $.ajax({
-        url: "https://api.spotify.com/v1/search?query="+buildQuery+"&type=artist,track,album&offset=0&limit=20",
+        url: "https://api.spotify.com/v1/search?query=" + buildQuery + "&type=artist,track,album&offset=0&limit=20",
     }).done(function(data) {
         console.log(data);
         return data;
     }).fail(function(e) {
-        console.log( "An error occured trying with search query"+ e );
+        console.log("An error occured trying with search query" + e);
     });
 }
 
 function spotifyIFrame(albumId) {
 
-    var iSrc = "https://embed.spotify.com/?uri=spotify%3Aalbum%3A"+albumId+"&theme=white"
+    var iSrc = "https://embed.spotify.com/?uri=spotify%3Aalbum%3A" + albumId + "&theme=white"
     var frame = $("<iframe>");
 
-    $(frame).attr("src",iSrc);
-    $(frame).css({"width":"100%", "height":"80", "frameborder":"0", "allowtransparency":"true"})
+    $(frame).attr("src", iSrc);
+    $(frame).css({ "width": "100%", "height": "80", "frameborder": "0", "allowtransparency": "true" })
 
     //$("#test").append(frame);
     return frame;
@@ -35,12 +35,12 @@ function spotifyIFrame(albumId) {
 
 function getRelatedArtist(artistId) {
     $.ajax({
-        url: "https://api.spotify.com/v1/artists/"+artistId+"/related-artists",
+        url: "https://api.spotify.com/v1/artists/" + artistId + "/related-artists",
     }).done(function(data) {
         console.log(data);
         return data;
     }).fail(function(e) {
-        console.log( "Getting related artist failed"+ e );
+        console.log("Getting related artist failed" + e);
     });
 
 }
@@ -59,13 +59,17 @@ function getRelatedArtist(artistId) {
 //GET https://api.spotify.com/v1/artists/{id}/related-artists
 
 
+
+
+
+
+
 //
 //
 // THIS IS THE CODE SCOTT WROTE FOR THE SEAT GEEK EVENT LISTINGS AND DISTANCE FUNCTIONS
 //
-// //"use strict"
 
-var zipcodeAPIKey = ZipCodeConfig.apiKey;
+var googleAPIKey = GoogleMapsEmbedConfig.apiKey;
 var seatgeekAPIKey = SeatGeekConfig.apiKey;
 var bandName = "chicago";
 var closeEvents = [];
@@ -127,7 +131,7 @@ function seatGeekSearch() {
 
 
 function userLatLon() {
-    var googleLatLonURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + zipcode + "&key=" + GoogleMapsEmbedConfig.apiKey;
+    var googleLatLonURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + zipcode + "&key=" + googleAPIKey;
 
     $.ajax({
         url: googleLatLonURL,
@@ -166,12 +170,10 @@ function distance() {
         var eventLon = eventObj.venue.location.lon;
         var eventLocation = eventObj.venue.display_location;
 
-        // var googleMapsURL = "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + zipcode + "&destinations=" + venueAddress + "&key=AIzaSyCqmi8XbEgdxQWsUS9H5t27rAnmotbqFhA";
 
 
         var origin = new google.maps.LatLng(userLat, userLon);
-        // var origin2 = "Apex, NC";
-        // var destinationA = eventLocation;
+
         var destination = new google.maps.LatLng(eventLat, eventLon);
 
         var service = new google.maps.DistanceMatrixService();
@@ -230,14 +232,14 @@ function distance() {
                             var duration = element.duration.text;
                             var from = origins[i];
                             var to = destinations[j];
-                            
+
 
 
                         }
                     }
                 }
             }
-            
+
         }
 
     }
