@@ -4,6 +4,8 @@
  * FirebaseUI initialization to be used in a Single Page application context.
  */
 // FirebaseUI config.
+
+firebase.initializeApp(FirebaseConfig);
 var uiConfig = {
     'callbacks': {
         // Called when the user has been successfully signed in.
