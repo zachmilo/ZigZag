@@ -1,3 +1,5 @@
+https://travis-ci.org/zachmilo/ZigZag.svg?branch=travis_ci
+
 TO INTALL DEPENDENCIES GO TO REPO AND DO "npm install"
 
 #Below is the currently installed packages 
