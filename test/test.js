@@ -1,10 +1,18 @@
 var expect = chai.expect;
-var spotify = 
-describe('Spotify API calls', function() {
-  describe('#spotifySearch', function() {
-    it('Should return result of search', function() {
-        var result = spotifySearch("The Beatles");
-       expect(result).to.equal(result.artists.total > 1);
+var assert = chai.assert;
+
+describe("Spotify", function() {
+     describe("searchQuery()", function() {
+        it("Should return a band from query", function(done) { // added "done" as parameter
+            spotifySearch("The Beatles", function(result) {
+                try {
+                    assert.isAbove(result.artists.total,0);
+                    done();
+                }
+                catch(e) {
+                    done(e);
+                }
+            });
+        });
     });
-  });
 });
