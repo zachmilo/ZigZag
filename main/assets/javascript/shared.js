@@ -48,13 +48,4 @@ function getRelatedArtist(artistId, callbackFunc) {
     }).fail(function(e) {
         console.log( "Getting related artist failed"+ e );
     });
-
-    var iSrc = "https://embed.spotify.com/?uri=spotify%3Aalbum%3A"+albumId+"&theme=white"
-    var frame = $("<iframe>");
-
-    $(frame).attr("src",iSrc);
-    $(frame).css({"width":"100%", "height":"80", "frameborder":"0", "allowtransparency":"true"})
-
-    return frame;
-
 }
