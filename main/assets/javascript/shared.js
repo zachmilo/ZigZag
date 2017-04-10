@@ -1,10 +1,13 @@
 "use strict"
-/*
- * Allow you to search spotify api.
- * This search can do artist, albums, and track
- * returns: the search results
- */
 
+/*
+* Allow you to search spotify api.
+* This search can do artist, albums, and track
+* returns: the search results
+ */
+function spotifySearch(searchQuery, callbackFunc) {
+
+<<<<<<< HEAD
 var googleAPIKey = GoogleMapsEmbedConfig.apiKey;
 var seatgeekAPIKey = SeatGeekConfig.apiKey;
 var bandName = sessionStorage.getItem('Hear+Now:bandName');
@@ -52,17 +55,22 @@ function spotifySearch(searchQuery) {
         return data;
     }).fail(function(e) {
         console.log("An error occurred trying with search query" + e);
+=======
+    var buildQuery = _.replace(_.trim(searchQuery), " ","+");
+
+    $.ajax({
+        url: "https://api.spotify.com/v1/search?query="+buildQuery+"&type=artist&offset=0&limit=20",
+    }).done(function(data) {
+        return callbackFunc(data);
+    }).fail(function(e) {
+        console.log( "An error occured trying with search query"+ e );
+>>>>>>> 291986873b230b4912ee09c25778c3c4c6454028
     });
 }
 
-function spotifyIFrame(albumId) {
+function spotifyIFrame(artistId, callbackFunc) {
 
-    var iSrc = "https://embed.spotify.com/?uri=spotify%3Aalbum%3A" + albumId + "&theme=white"
-    var frame = $("<iframe>");
-
-    $(frame).attr("src", iSrc);
-    $(frame).css({ "width": "100%", "height": "80", "frameborder": "0", "allowtransparency": "true" })
-
+<<<<<<< HEAD
     //$("#test").append(frame);
     return frame;
     //.albums.items["0"].id
@@ -86,9 +94,13 @@ function initMasonry() {
 // }
 
 function getRelatedArtist(artistId) {
+=======
+    var albumId = "";
+>>>>>>> 291986873b230b4912ee09c25778c3c4c6454028
     $.ajax({
-        url: "https://api.spotify.com/v1/artists/" + artistId + "/related-artists",
+        url: "https://api.spotify.com/v1/artists/"+artistId+"/albums",
     }).done(function(data) {
+<<<<<<< HEAD
         // bandArray.push(data);
         for (var i = 0; i < data.artists.length; i++) {
             bandArray.push(data.artists[i]);
@@ -549,3 +561,30 @@ function addDates(index, id) {
 // bandName.text(response.artists.items[0].name);
 
 setTimeout(function() { initMasonry() }, 2500);
+=======
+        var albumId = Math.floor((Math.random() * data.items.length));
+        var iSrc = "https://embed.spotify.com/?uri=spotify%3Aalbum%3A"+data.items[albumId].id+"&theme=white"
+        var frame = $("<iframe>");
+
+        $(frame).attr("src",iSrc);
+        $(frame).css({"width":"100%", "height":"80", "frameborder":"0", "allowtransparency":"true"})
+
+        return callbackFunc(frame);
+
+    }).fail(function(e) {
+        console.log( "An error occured trying to get album"+ e );
+    });
+}
+
+function getRelatedArtist(artistId, callbackFunc) {
+
+    $.ajax({
+        url: "https://api.spotify.com/v1/artists/"+artistId+"/related-artists",
+    }).done(function(data) {
+        console.log(data);
+        return callbackFunc(data);
+    }).fail(function(e) {
+        console.log( "Getting related artist failed"+ e );
+    });
+}
+>>>>>>> 291986873b230b4912ee09c25778c3c4c6454028
