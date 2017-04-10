@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Hear and Now</title>
-        <link href="https://fonts.googleapis.com/css?family=Cuprum|Permanent+Marker" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" type="text/css" href="node_modules/materialize-css/dist/css/materialize.min.css" media="screen,projection"/>
-        <link rel="stylesheet" type="text/css" href="main/assets/css/style.css">
-         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <video playsinline autoplay muted loop poster="hero.png" id="bgvid">
-            <source src="main/assets/media/videos/632333283.webm" type="video/webm">
-            <source src="main/assets/media/videos/632333283.mp4" type="video/mp4">
-        </video>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hear and Now</title>
+    <link href="https://fonts.googleapis.com/css?family=Cuprum|Permanent+Marker" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="node_modules/materialize-css/dist/css/materialize.min.css" media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="main/assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <video playsinline autoplay muted loop poster="hero.png" id="bgvid">
+        <source src="main/assets/media/videos/632333283.webm" type="video/webm">
+        <source src="main/assets/media/videos/632333283.mp4" type="video/mp4">
+    </video>
     <div class='container'>
         <div class='row'>
             <div class='col s12'>
@@ -25,20 +27,21 @@
     <div class='container' id='form-box'>
         <div class="row">
             <div class="input-field col s12">
-              <input value="" id="band_name" type="text" class="validate" placeholder="BAND NAME">
+                <input value="" id="band_name" type="text" class="validate" data-error='PLEASE ENTER A VALID BAND NAME' placeholder="BAND NAME">
             </div>
             <div class="input-field col s12">
-              <input value="" id="location" type="text" class="validate" placeholder="LOCATION">
+                <input value="" id="location" type="text" pattern='[0-9]{5}' class="validate" data-error='PLEASE ENTER A VALID ZIP CODE' placeholder="ZIP CODE">
             </div>
-            <a class="waves-effect waves-light btn" href='results.html' id='main_button'>GO!</a>
+            <div class='center-align'>
+                <a class="waves-effect waves-light btn-large" id='main_button'>GO!</a>
+            </div>
         </div>
     </div>
-    </body>
-    <script src="node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
-    <script src="node_modules/lodash/lodash.js"></script>
-    <script src="node_modules/mocha/mocha.js"></script>
-    <script src="main/assets/javascript/shared.js"></script>
-    <script src="main/assets/javascript/app.js"></script>
-    <script src="main/assets/config.js"></script>
+</body>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
+<script src="main/assets/config.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCqmi8XbEgdxQWsUS9H5t27rAnmotbqFhA" type="text/javascript"></script>
+<script src="main/assets/javascript/app.js"></script>
+
 </html>

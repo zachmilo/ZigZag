@@ -2,10 +2,17 @@ body {
     height: 100vh;
     background-color: aliceblue;
     font-family: 'Cuprum', sans-serif;
+    overflow-x: hidden;
+    max-width: 100vw;
 }
 
 .valign-wrapper {
     border: 1px solid red;
+}
+
+.card-image img {
+    min-width: 100%;
+    max-width: 100%;
 }
 
 video#bgvid {
@@ -48,7 +55,6 @@ h1,
 
 .brand-logo span {
     font-family: 'Permanent Marker', cursive;
-
 }
 
 h4 {
@@ -71,10 +77,10 @@ h4 {
 #band_name,
 #location,
 ::placeholder {
-   size: 4rem;
-   font-weight: bold;
-   color: darkslateblue;
-   text-align: center;
+    size: 4rem;
+    font-weight: bold;
+    color: darkslateblue;
+    text-align: center;
 }
 
 #main_button {
@@ -88,7 +94,7 @@ h4 {
     color: aliceblue;
 }
 
-.nav-wrapper ::placeholder {
+.nav-wrapper::placeholder {
     color: aliceblue;
     font-weight: normal;
 }
@@ -105,7 +111,7 @@ h4 {
 .results h5 {
     color: #3E380F;
     font-weight: normal;
-/*    border-bottom: 2px solid #3E380F;*/
+    /*    border-bottom: 2px solid #3E380F;*/
     text-decoration: underline;
 }
 
@@ -133,14 +139,14 @@ h4 {
 }
 
 .band_div {
-  padding-bottom: 2rem;
-  -webkit-box-shadow: 0 8px 6px -6px #3E380F;
-  -moz-box-shadow: 0 8px 6px -6px #3E380F;
-  box-shadow: 0 8px 6px -6px #3E380F;
+    padding-bottom: 2rem;
+    -webkit-box-shadow: 0 8px 6px -6px #3E380F;
+    -moz-box-shadow: 0 8px 6px -6px #3E380F;
+    box-shadow: 0 8px 6px -6px #3E380F;
 }
 
 .card-title {
-        font-family: 'Permanent Marker', cursive;
+    font-family: 'Permanent Marker', cursive;
 }
 
 .pink {
@@ -171,11 +177,14 @@ ul.card-action-buttons li {
     padding-left: 5px;
 }
 
-#search_dropdown {
-    top: ;
-   width: 250px;
+.favorite {
+    background-color: lightgrey;
 }
 
-#search_dropdown li {
-    width: 250px;
+.btn-large {
+    font-size: 1.7rem;
+}
+
+.event-title {
+    font-weight: bold;
 }
