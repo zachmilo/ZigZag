@@ -38,8 +38,7 @@ Thumbs.db
 
 # NPM Package #
 ###############
-
-node_modules/**
+node_modules/*
 
 # Config #
 #########

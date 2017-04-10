@@ -26,42 +26,95 @@ var userRange = 0;
 var eventIndex = 0;
 var perPage = 10;
 
-spotifySearch(bandName);
+// Main Function
+getArist(bandName);
 
-function spotifySearch(searchQuery) {
-
+function getArist(searchQuery) {
     $.ajax({
         url: "https://api.spotify.com/v1/search?query=" + searchQuery + "&type=artist,track,album&offset=0&limit=20",
     }).done(function(data) {
-        // cardCreate(data.artists.items[0].name, data.artists.items[0].images[1].url);
-        // bandArray.push(data.artists.items[0]);
-        var bandPic = false;
-        //Try to find an image with 640px width
-        for (var i = 0; i < data.artists.items[0].images.length; i++) {
-            if (data.artists.items[0].images[i].width === 640) {
-                var bandPic = data.artists.items[0].images[i].url;
-            }
-        }
-        //If an image with 640 width can't be found use the 2nd image
-        if (!bandPic) bandPic = data.artists.items[0].images[1].url;
-        seatGeekSearch(data.artists.items[0].name, bandPic);
-
-        // // console.log(data);
-        getRelatedArtist(data.artists.items[0].id);
-        return data;
+        getRelatedArtists(data);
     }).fail(function(e) {
         console.log("An error occurred trying with search query" + e);
     });
 }
 
-function spotifyIFrame(albumId) {
+function getRelatedArtists(artist) {
+    $.ajax({
+        url: "https://api.spotify.com/v1/artists/" + artist.artists.items[0].id + "/related-artists",
+    }).done(function(data) {
+        bandArray.push(artist);
+        for (var i = 0; i < data.artists.length; i++) {
+            bandArray.push(data.artists[i]);
+        }
+        cardCreate(bandArray);
+    }).fail(function(e) {});
+}
 
+function cardCreate(aristsObject) {
+    for (var i = 0; i < aristsObject.length; i++) {
+        var bandPic = false;
+        //Try to find an image with 640px width
+        for (var j = 0; j < artistsObject[i].artists.items[0].images.length; j++) {
+            if (artistsObject[i].artists.items[0].images[j].width === 640) {
+                var bandPic = artistsObject[i].artists.items[0].images[j].url;
+            }
+        }
+        //If an image with 640 width can't be found use the 2nd image
+        if (!bandPic) bandPic = artistsObject.artists.items[0].images[1].url;
+
+        let uniqueId = _.uniqueId();
+        // let arrayIndex = uniqueId - 1;
+        let newCol = $("<div>");
+        newCol.addClass("col s12 m6 l4 xl3");
+        let newCard = $("<div>");
+        newCard.addClass("card hoverable");
+        let imgDiv = $("<div>");
+        imgDiv.addClass("card-image");
+        let bandImg = $("<img>");
+        bandImg.attr("src", bandPic);
+
+        let cardButtons = $("<ul>");
+        cardButtons.addClass("card-action-buttons");
+        cardButtons.html("<li><a class='btn-floating favorite'><i class='material-icons'>favorite</i></a></li><li><a class='btn-floating amber darken-1 spotify activator'><i class='material-icons'>volume_up</i></a></li>");
+
+        let cardContent = $("<div>");
+        cardContent.addClass("card-content");
+        cardContent.attr("id", uniqueId);
+
+        let bandName = $("<span>");
+        bandName.addClass("card-title");
+        bandName.text(aristsObject[i].artists.items[0].name);
+
+        let cardReveal = $("<div>");
+        cardReveal.addClass("card-reveal");
+        let revealSpan = $("<span>");
+        revealSpan.addClass("card-title grey-text text-darken-4");
+        revealSpan.html("<i class='material-icons right text-white'>close</i>");
+
+        cardReveal.append(revealSpan);
+        imgDiv.append(bandImg);
+        imgDiv.append(cardButtons);
+        newCard.append(imgDiv);
+        cardContent.append(bandName);
+        newCard.append(cardContent);
+        newCard.append(cardReveal);
+
+        newCol.append(newCard);
+        $("#masonry-grid").append(newCol);
+
+        addDates(uniqueId - 1, uniqueId);
+    }
+}
+
+function spotifyIFrame(albumId) {
     var iSrc = "https://embed.spotify.com/?uri=spotify%3Aalbum%3A" + albumId + "&theme=white"
     var frame = $("<iframe>");
 
-    $(frame).attr("src", iSrc);
-    $(frame).css({ "width": "100%", "height": "80", "frameborder": "0", "allowtransparency": "true" })
+    frame.attr("src", iSrc);
+    frame.css({ "width": "100%", "height": "80", "frameborder": "0", "allowtransparency": "true" })
 
+    //$("#test").append(frame);
     return frame;
 }
 
@@ -75,37 +128,13 @@ function initMasonry() {
     });
 }
 
-function getRelatedArtist(artistId) {
-    $.ajax({
-        url: "https://api.spotify.com/v1/artists/" + artistId + "/related-artists",
-    }).done(function(data) {
-        // bandArray.push(data);
-        for (var i = 0; i < data.artists.length; i++) {
-            bandArray.push(data.artists[i]);
-        }
 
-        for (var i = 0; i < bandArray.length; i++) {
-            var bandPic = false;
-            //Try to find an image with 640px width
-            for (var j = 0; j < bandArray[i].images.length; j++) {
-                if (bandArray[i].images[j].width === 640) {
-                    var bandPic = bandArray[i].images[j].url;
-                }
-            }
-            //If an image with 640 width can't be found use the 2nd image
-            if (!bandPic) bandPic = bandArray[i].images[1].url;
-            seatGeekSearch(bandArray[i].name, bandPic);
-        }
-        return data;
-    }).fail(function(e) {
-    });
 
-}
+/*
+<iframe src="https://embed.spotify.com/?uri=spotify%3Atrack%3A33Q6ldVXuJyQmqs8BmAa0k&theme=white" width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+ */
 
-//
-//
-// THIS IS THE CODE SCOTT WROTE FOR THE SEAT GEEK EVENT LISTINGS AND DISTANCE FUNCTIONS
-//
+
 function timeFormat() {
     for (var i = 0; i < closeEvents.length; i++) {
         if (closeEvents[i].events.length > 0) {
@@ -113,7 +142,6 @@ function timeFormat() {
                 var eventObj = closeEvents[i].events[j];
                 var timeFormat = moment(closeEvents[i].events[j].datetime_local).format("h:mma ddd, MMM DD");
                 eventObj.date_format = timeFormat;
-
             }
         }
     }
@@ -123,15 +151,14 @@ function seatGeekSearch(band, img) {
     eventIndex = 0;
     if (userRange === 0) {
         var seatgeekURL = "https://api.seatgeek.com/2/events?q=" + band + "&geoip=" + zipcode + "&range=" + defaultRange + "mi&per_page=" + perPage + "&client_id=" + seatgeekAPIKey;
-
         $.ajax({
             url: seatgeekURL,
             method: "GET"
         }).done(function(response) {
             closeEvents.push(response);
-
             timeFormat();
             cardCreate(band, img);
+            console.log(closeEvents);
         });
     } else {
         var seatgeekURL = "https://api.seatgeek.com/2/events?q=" + band + "&geoip=" + zipcode + "&range=" + defaultRange + "mi&per_page=" + perPage + "&client_id=" + seatgeekAPIKey;
