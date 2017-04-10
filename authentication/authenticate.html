@@ -1,0 +1,73 @@
+<!-- This is the HTML for user authentication only. Please do not remove any comments or code that has been commented out -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hear and Now User SignIn</title>
+    <!-- JM added Phil's fonts from main html doc -->
+    <link href="https://fonts.googleapis.com/css?family=Cuprum|Permanent+Marker" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Note that the following link to 3.7.4 of firebase is the code snippet from FB config instructions but does not work properly with the fb package, which uses v.3.6 -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js"></script> -->
+
+    <!-- TEAM: Keep these javascript files separate from other .js files since it is for user authentication only and the permissions have to be set to both "read" and "write" for users-->
+    <script src="https://www.gstatic.com/firebasejs/live/3.6/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.js"></script>
+    <!-- <script src="dist/firebaseui.js"></script> -->
+
+    <!-- Style sheet for firebase user athentication package -->
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/1.0.0/firebaseui.css" />
+    <link type="text/css" rel="stylesheet" href="style.css" />
+    <!-- <link type="text/css" rel="stylesheet" href="dist/firebaseui.css" /> -->
+
+    <!-- TEAM: Keep this authenticateConfig file separate from other .js files since it is for user authentication only and the permissions have to be set to both "read" and "write" for users -->
+    <script src="../main/assets/config.js"></script>
+    <link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+    <!-- <script src="firebaseui.js"></script> -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <div id="container">
+        <h2>Create Account or Sign In</h2>
+        <div id="loading">Loading...</div>
+        <div id="loaded" class="hidden">
+            <div id="main">
+                <div id="user-signed-in" class="hidden">
+                    <!-- Decide with Team as to keep or not (i.e., photo)-->
+                    <div id="user-info">
+                        <!-- <div id="photo-container">
+                            <img id="photo"></img>
+                        </div> -->
+                    <div id="name"></div>
+                    <div id="email"></div>
+                    <div class="clearfix"></div>
+                </div>
+                <p>
+                    <button id="sign-out">Sign Out</button>
+                    <!-- We don't need to have a "delete account" option but it's good to have for testing how our FB database is working -->
+                    <!-- <button id="delete-account">Delete account</button> -->
+                </p>
+            </div>
+            <div id="user-signed-out" class="hidden">
+                <h3>You are signed out.</h3>
+                <!-- <p>
+              <button id="sign-in-with-redirect">Sign In with Redirect</button>
+              <button id="sign-in-with-popup">Sign In with Popup</button>
+            </p> -->
+                <div id="firebaseui-spa">
+                    <!-- Next line reserved -->
+                    <!-- <h5>Single Page Application mode:</h5> -->
+                    <div id="firebaseui-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>

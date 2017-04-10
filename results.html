@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Hear + Now</title>
+    <link href="https://fonts.googleapis.com/css?family=Cuprum|Permanent+Marker" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="node_modules/materialize-css/dist/css/materialize.min.css" media="screen,projection" />
+    <link rel="stylesheet" type="text/css" href="main/assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper">
+            <a href="index.html" class="brand-logo">HEAR <span>&</span> NOW</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li>
+                    <a href="#search-modal"><i class="material-icons left">search</i>SEARCH</a>
+                </li>
+                <li>
+                    <a href="#"><i class="material-icons left">perm_identity</i>SIGN IN</a>
+                </li>
+            </ul>
+            <ul id="nav-mobile" class="right hide-on-med-and-up">
+                <li>
+                    <a href="#" class='waves-effect waves-light'><i class="material-icons left">perm_identity</i></a>
+                </li>
+            </ul>
+            <ul id="nav-mobile" class="left hide-on-med-and-up">
+                <li>
+                    <a href="#search-modal" class='waves-effect waves-light'><i class="material-icons left">search</i></a>
+                </li>
+            </ul>
+            <ul id="nav-mobile" class="right hide-on-large-only hide-on-small-only">
+                <li>
+                    <a href="#"><i class="material-icons left">perm_identity</i>SIGN IN</a>
+                </li>
+            </ul>
+            <ul id="nav-mobile" class="left hide-on-large-only hide-on-small-only">
+                <li>
+                    <a href="#search-modal"><i class="material-icons left">search</i>SEARCH</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div id="search-modal" class="modal">
+        <div class="modal-content">
+            <h4 class='center-align black-text'>Search</h4>
+            <ul>
+                <li>
+                    <input value="" id="band_name" type="text" class="validate center-align" placeholder="BAND NAME">
+                </li>
+                <li>
+                    <input value="" id="location" type="text" class="validate" placeholder="LOCATION">
+                </li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" id='new-search' class="modal-action btn-flat">Go!</a>
+            <a href="#!" class="modal-action modal-close btn-flat">Oops!</a>
+        </div>
+    </div>
+    <div class="row" id="masonry-grid"></div>
+</body>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/materialize-css/dist/js/materialize.min.js"></script>
+<script src='main/assets/javascript/masonry.pkgd.min.js'></script>
+<script src="node_modules/lodash/lodash.js"></script>
+<script src="node_modules/mocha/mocha.js"></script>
+<script src="node_modules/moment/moment.js"></script>
+<script src="main/assets/config.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCqmi8XbEgdxQWsUS9H5t27rAnmotbqFhA" type="text/javascript"></script>
+<script src="main/assets/javascript/shared.js"></script>
+<script src="main/assets/javascript/app.js"></script>
+
+</html>
