@@ -158,7 +158,7 @@ h4 {
 }
 
 .card .card-reveal {
-    top: 70%;
+    top: 65%;
     height: 40%;
     background-color: transparent;
 }
@@ -187,4 +187,8 @@ ul.card-action-buttons li {
 
 .event-title {
     font-weight: bold;
+}
+
+.card-reveal {
+    overflow-y: hidden !important;
 }
