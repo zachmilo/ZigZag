@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "node serveFile.js"
-  },
+  "scripts":{"start":"node serveFile.js"},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zachmilo/ZigZag.git"
@@ -18,6 +16,7 @@
   "homepage": "https://github.com/zachmilo/ZigZag#readme",
   "dependencies": {
     "chai": "^3.5.0",
+    "express": "^4.15.2",
     "firebase": "^3.7.4",
     "http-server": "^0.9.0",
     "jquery": "^3.2.1",
