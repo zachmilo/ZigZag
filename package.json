@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha test/test.js"
   },
   "repository": {
     "type": "git",
@@ -22,9 +22,7 @@
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "materialize-css": "^0.98.1",
-    "mocha": "^3.2.0"
-},
-"scripts": {
-    "test": "mocha test/test.js"
-    }
+    "mocha": "^3.2.0",
+    "moment": "^2.18.1"
+  }
 }
