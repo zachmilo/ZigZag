@@ -26,60 +26,19 @@ var userRange = 0;
 var eventIndex = 0;
 var perPage = 10;
 
-spotifySearch(bandName);
-
-function spotifySearch(searchQuery) {
-
-    $.ajax({
-        url: "https://api.spotify.com/v1/search?query=" + searchQuery + "&type=artist,track,album&offset=0&limit=20",
-    }).done(function(data) {
-        // cardCreate(data.artists.items[0].name, data.artists.items[0].images[1].url);
-        // bandArray.push(data.artists.items[0]);
-        var bandPic = false;
-        //Try to find an image with 640px width
-        for (var i = 0; i < data.artists.items[0].images.length; i++) {
-            if (data.artists.items[0].images[i].width === 640) {
-                var bandPic = data.artists.items[0].images[i].url;
-            }
+spotifySearch(bandName, function(data) {
+    var bandPic = false;
+    //Try to find an image with 640px width
+    for (var i = 0; i < data.artists.items[0].images.length; i++) {
+        if (data.artists.items[0].images[i].width === 640) {
+            var bandPic = data.artists.items[0].images[i].url;
         }
-        //If an image with 640 width can't be found use the 2nd image
-        if (!bandPic) bandPic = data.artists.items[0].images[1].url;
-        seatGeekSearch(data.artists.items[0].name, bandPic);
-
-        // // console.log(data);
-        getRelatedArtist(data.artists.items[0].id);
-        return data;
-    }).fail(function(e) {
-        console.log("An error occurred trying with search query" + e);
-    });
-}
-
-function spotifyIFrame(albumId) {
-
-    var iSrc = "https://embed.spotify.com/?uri=spotify%3Aalbum%3A" + albumId + "&theme=white"
-    var frame = $("<iframe>");
-
-    $(frame).attr("src", iSrc);
-    $(frame).css({ "width": "100%", "height": "80", "frameborder": "0", "allowtransparency": "true" })
-
-    return frame;
-}
-
-function initMasonry() {
-    // Add masonry effect
-    var $container = $('#masonry-grid');
-    // initialize
-    $container.masonry({
-        columnWidth: '.col',
-        itemSelector: '.col',
-    });
-}
-
-function getRelatedArtist(artistId) {
-    $.ajax({
-        url: "https://api.spotify.com/v1/artists/" + artistId + "/related-artists",
-    }).done(function(data) {
-        // bandArray.push(data);
+    }
+    //If an image with 640 width can't be found use the 2nd image
+    if (!bandPic) bandPic = data.artists.items[0].images[1].url;
+    seatGeekSearch(data.artists.items[0].name, bandPic, data.artists.items[0].id);
+    console.log(data);
+    getRelatedArtist(data.artists.items[0].id, function(data) {
         for (var i = 0; i < data.artists.length; i++) {
             bandArray.push(data.artists[i]);
         }
@@ -94,12 +53,66 @@ function getRelatedArtist(artistId) {
             }
             //If an image with 640 width can't be found use the 2nd image
             if (!bandPic) bandPic = bandArray[i].images[1].url;
-            seatGeekSearch(bandArray[i].name, bandPic);
+            seatGeekSearch(bandArray[i].name, bandPic, bandArray[i].id);
         }
-        return data;
-    }).fail(function(e) {
     });
 
+});
+
+function spotifySearch(searchQuery, callbackFunc) {
+
+    var buildQuery = _.replace(_.trim(searchQuery), " ", "+");
+
+    $.ajax({
+        url: "https://api.spotify.com/v1/search?query=" + buildQuery + "&type=artist&offset=0&limit=20",
+    }).done(function(data) {
+        return callbackFunc(data);
+    }).fail(function(e) {
+        console.log("An error occured trying with search query" + e);
+    });
+}
+
+function spotifyIFrame(artistId, callbackFunc) {
+
+    var albumId = "";
+    $.ajax({
+        url: "https://api.spotify.com/v1/artists/" + artistId + "/albums",
+    }).done(function(data) {
+        var albumId = Math.floor((Math.random() * data.items.length));
+        var iSrc = "https://embed.spotify.com/?uri=spotify%3Aalbum%3A" + data.items[albumId].id + "&theme=white"
+        var frame = $("<iframe>");
+
+        $(frame).attr("src",iSrc);
+        $(frame).attr("frameborder","0");
+        $(frame).attr("allowtransparency","true");
+        $(frame).css({"width":"100%", "height":"80"})
+
+        return callbackFunc(frame);
+
+    }).fail(function(e) {
+        console.log("An error occured trying to get album" + e);
+    });
+}
+
+function initMasonry() {
+    // Add masonry effect
+    var $container = $('#masonry-grid');
+    // initialize
+    $container.masonry({
+        columnWidth: '.col',
+        itemSelector: '.col',
+    });
+}
+
+function getRelatedArtist(artistId, callbackFunc) {
+
+    $.ajax({
+        url: "https://api.spotify.com/v1/artists/" + artistId + "/related-artists",
+    }).done(function(data) {
+        return callbackFunc(data);
+    }).fail(function(e) {
+        console.log("Getting related artist failed" + e);
+    });
 }
 
 //
@@ -119,7 +132,7 @@ function timeFormat() {
     }
 }
 
-function seatGeekSearch(band, img) {
+function seatGeekSearch(band, img, bandId) {
     eventIndex = 0;
     if (userRange === 0) {
         var seatgeekURL = "https://api.seatgeek.com/2/events?q=" + band + "&geoip=" + zipcode + "&range=" + defaultRange + "mi&per_page=" + perPage + "&client_id=" + seatgeekAPIKey;
@@ -131,7 +144,7 @@ function seatGeekSearch(band, img) {
             closeEvents.push(response);
 
             timeFormat();
-            cardCreate(band, img);
+            cardCreate(band, img, bandId);
         });
     } else {
         var seatgeekURL = "https://api.seatgeek.com/2/events?q=" + band + "&geoip=" + zipcode + "&range=" + defaultRange + "mi&per_page=" + perPage + "&client_id=" + seatgeekAPIKey;
@@ -145,7 +158,7 @@ function seatGeekSearch(band, img) {
     }
 }
 
-function cardCreate(name, image) {
+function cardCreate(name, image, bandId) {
     var uniqueId = _.uniqueId();
     var arrayIndex = uniqueId - 1;
     var newCol = $("<div>");
@@ -159,7 +172,7 @@ function cardCreate(name, image) {
 
     var cardButtons = $("<ul>");
     cardButtons.addClass("card-action-buttons");
-    cardButtons.html("<li><a class='btn-floating favorite'><i class='material-icons'>favorite</i></a></li><li><a class='btn-floating amber darken-1 spotify activator'><i class='material-icons'>volume_up</i></a></li>");
+    cardButtons.html("<li><a class='btn-floating favorite'><i class='material-icons'>favorite</i></a></li><li><a id=\'" + bandId + "\' class='btn-floating amber darken-1 spotify activator'><i class='material-icons'>volume_up</i></a></li>");
 
     var cardContent = $("<div>");
     cardContent.addClass("card-content");
