@@ -47,6 +47,17 @@ $(() => {
     $('#new_location').val(sessionStorage.getItem('Hear+Now:location'));
 
     $('.modal').modal();
+
+    $('body').on('click', '.spotify', function(){
+    	var _that = $(this);
+    	console.log($(this).attr('id'));
+    	spotifyIFrame($(this).attr('id'), function(frame) {
+    		console.log(_that);
+    		console.log(_that.closest('card-image').next().next());
+    		_that.closest('.card-image').next().next().append(frame);
+    		console.log(frame);
+    	})
+    })
 })
 
 function setSessionStorage(bandName, location) {
