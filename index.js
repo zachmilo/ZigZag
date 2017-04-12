@@ -25,6 +25,12 @@ app.set('views', __dirname);
 app.set('view engine', 'ejs');
 
 app.get('/', function(request, response) {
+
+  response.render('index');
+});
+
+app.get('/results.html', function(request, response) {
+  // response.redirect('/results.html');
   response.render('index')
 });
 
