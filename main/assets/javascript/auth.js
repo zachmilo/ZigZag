@@ -35,11 +35,26 @@ if (password.length < 4) {
 // Sign in with email and pass.
 // [START authwithemail]
 firebase.auth().signInWithEmailAndPassword(email, password).then(function(data){
-  console.log("it works");
-}).catch(function(error) {
+  // $.ajax({
+  //         url: "/results.html",
+  //         type: "get",
+  //         dataType: "html",
+  //
+  //         success: function(data) {
+  //             // $("#test").append(data);
+  //             console.log(data);
+  //         },
+  //         error: function(error) {
+  //             console.log(error);
+  //         }
+  //     });
+  window.location = "/results.html";
+
+  }).catch(function(error) {
  // Handle Errors here.
  var errorCode = error.code;
  var errorMessage = error.message;
+ console.log(errorMessage);
  // [START_EXCLUDE]
  if (errorCode === 'auth/wrong-password') {
    alert('Wrong password.');
