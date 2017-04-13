@@ -38,7 +38,7 @@ spotifySearch(bandName, function(data) {
     //If an image with 640 width can't be found use the 2nd image
     if (!bandPic) bandPic = data.artists.items[0].images[1].url;
     seatGeekSearch(data.artists.items[0].name, bandPic, data.artists.items[0].id);
-    console.log(data);
+
     getRelatedArtist(data.artists.items[0].id, function(data) {
         for (var i = 0; i < data.artists.length; i++) {
             bandArray.push(data.artists[i]);
@@ -148,6 +148,7 @@ function seatGeekSearch(band, img, bandId) {
             timeFormat();
             cardCreate(band, img, bandId);
         }).fail(function(e) {
+            console.log("An error occured trying SeatGeek with search query" + e);
             //Since no dates can be added but the band is still present in the array increment the run but don't create a card
             runs++;
         });

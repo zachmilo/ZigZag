@@ -1,14 +1,3 @@
-// Firebase user authentication
-// Initialize firebaseapp
-// var config = {
-//   apiKey: "AIzaSyAZKexG2KK-jaMXCuauijnF-Uals_HmmNk",
-//   authDomain: "hear-now-9786e.firebaseapp.com",
-//   databaseURL: "https://hear-now-9786e.firebaseio.com",
-//   projectId: "hear-now-9786e",
-//   storageBucket: "hear-now-9786e.appspot.com",
-//   messagingSenderId: "578439962801"
-// };
-console.log(firebaseConfig);
 firebase.initializeApp(firebaseConfig);
 
 
