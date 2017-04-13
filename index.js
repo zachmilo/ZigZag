@@ -22,17 +22,23 @@ app.use(express.static(__dirname));
 
 // views is directory for all template files
 app.set('views', __dirname);
-app.set('view engine', 'ejs');
+//app.set('view engine', 'ejs');
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 app.get('/', function(request, response) {
-
   response.render('index');
 });
 
-app.get('/results.html', function(request, response) {
-  // response.redirect('/results.html');
-  response.render('index')
+app.get('/results', function(request, response) {
+   // response.redirect('/results.html');
+   response.render('results')
+ });
+
+app.get('/test', function(request, response) {
+  response.render('test/runTest');
 });
+
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
