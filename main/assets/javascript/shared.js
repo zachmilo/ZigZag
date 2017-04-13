@@ -25,6 +25,7 @@ var defaultRange = 200;
 var userRange = 0;
 var eventIndex = 0;
 var perPage = 10;
+var runs = 0;
 
 spotifySearch(bandName);
 
@@ -97,8 +98,7 @@ function getRelatedArtist(artistId) {
             seatGeekSearch(bandArray[i].name, bandPic);
         }
         return data;
-    }).fail(function(e) {
-    });
+    }).fail(function(e) {});
 
 }
 
@@ -213,6 +213,12 @@ function addDates(index, id) {
             $("#" + id).append(eventDates);
         }
     }
+    runs++;
+    checkLoaded(runs);
 }
 
-setTimeout(function() { initMasonry() }, 2500);
+function checkLoaded(passes) {
+    if (passes === bandArray.length) {
+        initMasonry();
+    }
+}
