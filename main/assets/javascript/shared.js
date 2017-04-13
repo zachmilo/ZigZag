@@ -244,14 +244,9 @@ function addDates(index, id) {
             $("#" + id).append(eventName, eventDates);
         }
     }
-    //keep track of the number of runs so masonry can be enabled at the end
+    //keep track of the number of times addDates() has been run so masonry can be enabled after the last time
     runs++;
-    checkLoaded(runs);
-}
-
-function checkLoaded(passes) {
-    //count the number of times addDates() was run and see if its equal to the number of bands.  If it is run masonry
-    if (passes === bandArray.length + 1) {
+    if (runs === bandArray.length + 1) {
         initMasonry();
     }
 }
