@@ -8,8 +8,8 @@
 //   storageBucket: "hear-now-9786e.appspot.com",
 //   messagingSenderId: "578439962801"
 // };
-console.log(config);
-firebase.initializeApp(config);
+console.log(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 
 
