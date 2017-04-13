@@ -30,12 +30,11 @@ var runs = 0;
 spotifySearch(bandName);
 
 function spotifySearch(searchQuery) {
+    runs = 0;
 
     $.ajax({
         url: "https://api.spotify.com/v1/search?query=" + searchQuery + "&type=artist,track,album&offset=0&limit=20",
     }).done(function(data) {
-        // cardCreate(data.artists.items[0].name, data.artists.items[0].images[1].url);
-        // bandArray.push(data.artists.items[0]);
         var bandPic = false;
         //Try to find an image with 640px width
         for (var i = 0; i < data.artists.items[0].images.length; i++) {
@@ -47,7 +46,6 @@ function spotifySearch(searchQuery) {
         if (!bandPic) bandPic = data.artists.items[0].images[1].url;
         seatGeekSearch(data.artists.items[0].name, bandPic);
 
-        // // console.log(data);
         getRelatedArtist(data.artists.items[0].id);
         return data;
     }).fail(function(e) {
@@ -58,10 +56,9 @@ function spotifySearch(searchQuery) {
 function spotifyIFrame(albumId) {
 
     var iSrc = "https://embed.spotify.com/?uri=spotify%3Aalbum%3A" + albumId + "&theme=white"
-    var frame = $("<iframe>");
-
-    $(frame).attr("src", iSrc);
-    $(frame).css({ "width": "100%", "height": "80", "frameborder": "0", "allowtransparency": "true" })
+    var frame = $("<iframe>")
+        .attr("src", iSrc)
+        .css({ "width": "100%", "height": "80", "frameborder": "0", "allowtransparency": "true" })
 
     return frame;
 }
@@ -132,6 +129,9 @@ function seatGeekSearch(band, img) {
 
             timeFormat();
             cardCreate(band, img);
+        }).fail(function(e) {
+            //Since no dates can be added but the band is still present in the array increment the run
+            runs++;
         });
     } else {
         var seatgeekURL = "https://api.seatgeek.com/2/events?q=" + band + "&geoip=" + zipcode + "&range=" + defaultRange + "mi&per_page=" + perPage + "&client_id=" + seatgeekAPIKey;
@@ -148,40 +148,51 @@ function seatGeekSearch(band, img) {
 function cardCreate(name, image) {
     var uniqueId = _.uniqueId();
     var arrayIndex = uniqueId - 1;
-    var newCol = $("<div>");
-    newCol.addClass("col s12 m6 l4 xl3");
-    var newCard = $("<div>");
-    newCard.addClass("card hoverable");
-    var imgDiv = $("<div>");
-    imgDiv.addClass("card-image");
-    var bandImg = $("<img>");
-    bandImg.attr("src", image);
+    var newCol = $("<div>").addClass("col s12 m6 l4 xl3");
+    var newCard = $("<div>").addClass("card hoverable");
+    var imgDiv = $("<div>").addClass("card-image");
+    var bandImg = $("<img>").attr("src", image);
 
-    var cardButtons = $("<ul>");
-    cardButtons.addClass("card-action-buttons");
-    cardButtons.html("<li><a class='btn-floating favorite'><i class='material-icons'>favorite</i></a></li><li><a class='btn-floating amber darken-1 spotify activator'><i class='material-icons'>volume_up</i></a></li>");
+    var cardButtons = $("<ul>")
+        .addClass("card-action-buttons")
+        .append($("<li>")
+            .append($("<a>")
+                .addClass("btn-floating favorite")
+                .append($("<i>")
+                    .addClass("material-icons")
+                    .text("favorite")
+                )
+            ),
+            $("<li>")
+            .append($("<a>")
+                .addClass("btn-floating amber darken-1 spotify activator")
+                .append($("<i>")
+                    .addClass("material-icons")
+                    .text("volume_up")
+                )
+            )
+        );
 
-    var cardContent = $("<div>");
-    cardContent.addClass("card-content");
-    cardContent.attr("id", uniqueId);
+    var cardContent = $("<div>")
+        .addClass("card-content")
+        .attr("id", uniqueId);
 
-    var bandName = $("<span>");
-    bandName.addClass("card-title");
-    bandName.text(name);
+    var bandName = $("<span>")
+        .addClass("card-title")
+        .text(name);
 
-    var cardReveal = $("<div>");
-    cardReveal.addClass("card-reveal");
-    var revealSpan = $("<span>");
-    revealSpan.addClass("card-title grey-text text-darken-4");
-    revealSpan.html("<i class='material-icons right text-white'>close</i>");
+    var cardReveal = $("<div>").addClass("card-reveal");
+    var revealSpan = $("<span>")
+        .addClass("card-title grey-text text-darken-4")
+        .append($("<i>")
+            .addClass("material-icons right text-white")
+            .text("close")
+        );
 
-    cardReveal.append(revealSpan);
-    imgDiv.append(bandImg);
-    imgDiv.append(cardButtons);
-    newCard.append(imgDiv);
+    imgDiv.append(bandImg, cardButtons);
     cardContent.append(bandName);
-    newCard.append(cardContent);
-    newCard.append(cardReveal);
+    cardReveal.append(revealSpan);
+    newCard.append(imgDiv, cardContent, cardReveal);
 
     newCol.append(newCard);
     $("#masonry-grid").append(newCol);
@@ -192,33 +203,35 @@ function cardCreate(name, image) {
 function addDates(index, id) {
     for (var i = 0; i < closeEvents[index].events.length; i++) {
         if (closeEvents[index].events[i].type === "concert" || closeEvents[index].events[i].type === "broadway_tickets_national" || closeEvents[index].events[i].type === "comedy") {
-            var eventName = $("<p>");
-            eventName.addClass("event-title");
-            eventName.append(closeEvents[index].events[i].short_title);
-            eventName.append(": ");
-            var eventDates = $("<p>");
-            eventDates.append(closeEvents[index].events[i].date_format);
-            eventDates.append(" @ ");
-            eventDates.append(closeEvents[index].events[i].venue.name);
-            eventDates.append(" in ");
-            eventDates.append(closeEvents[index].events[i].venue.display_location);
-            eventDates.append(" - ");
-
-            var link = $("<a>");
-            link.attr("href", closeEvents[index].events[i].url);
-            link.attr("target", "_blank");
-            link.text("Tickets");
+            var eventName = $("<p>")
+                .addClass("event-title")
+                .append(closeEvents[index].events[i].short_title)
+                .append(": ");
+            var eventDates = $("<p>")
+                .append(closeEvents[index].events[i].date_format)
+                .append(" @ ")
+                .append(closeEvents[index].events[i].venue.name)
+                .append(" in ")
+                .append(closeEvents[index].events[i].venue.display_location)
+                .append(" - ");
+            var link = $("<a>")
+                .attr({
+                    href: closeEvents[index].events[i].url,
+                    target: "_blank"
+                })
+                .text("Tickets");
             eventDates.append(link);
-            $("#" + id).append(eventName);
-            $("#" + id).append(eventDates);
+            $("#" + id).append(eventName, eventDates);
         }
     }
+    //keep track of the number of runs so masonry can be enabled at the end
     runs++;
     checkLoaded(runs);
 }
 
 function checkLoaded(passes) {
-    if (passes === bandArray.length) {
+    //count the number of times addDates() was run and see if its equal to the number of bands.  If it is run masonry
+    if (passes === bandArray.length + 1) {
         initMasonry();
     }
 }
