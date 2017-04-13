@@ -39,14 +39,36 @@ $(() => {
 
     //Go! button on search modal
     $('#new-search').on('click', function(event) {
-    	event.preventDefault();
+        event.preventDefault();
         quickValidate($('#band_name').val().trim(), $('#location').val().trim());
     })
+
+    //Auth Modal
+    $('#sign-up').on('click', function() {
+        handleSignUp();
+    })
+    $('#sign-in').on('click', function() {
+        toggleSignIn();
+    })
+    $('#verify-email').on('click', function() {
+        sendEmailVerification();
+    })
+    $('#password-reset').on('click', function() {
+        sendPasswordReset();
+    })
+
 
     $('#new_band_name').val(sessionStorage.getItem('Hear+Now:bandName'));
     $('#new_location').val(sessionStorage.getItem('Hear+Now:location'));
 
     $('.modal').modal();
+
+    $('body').on('click', '.spotify', function() {
+        var _that = $(this);
+        spotifyIFrame($(this).attr('id'), function(frame) {
+            _that.closest('.card-image').next().next().append(frame);
+        })
+    })
 })
 
 function setSessionStorage(bandName, location) {
@@ -55,8 +77,8 @@ function setSessionStorage(bandName, location) {
 }
 
 function loadNewResults() {
-	setSessionStorage($('#band_name').val().trim(), $('#location').val().trim());
-	window.open("results.html", "_self");
+    setSessionStorage($('#band_name').val().trim(), $('#location').val().trim());
+    window.open("results.html", "_self");
 }
 
 function quickValidate(bandName, location) {
