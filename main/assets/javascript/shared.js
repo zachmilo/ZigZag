@@ -28,36 +28,22 @@ var perPage = 10;
 var runs = 0;
 
 spotifySearch(bandName, function(data) {
-    var bandPic = false;
-    //Try to find an image with 640px width
-    for (var i = 0; i < data.artists.items[0].images.length; i++) {
-        if (data.artists.items[0].images[i].width === 640) {
-            var bandPic = data.artists.items[0].images[i].url;
-        }
-    }
-    //If an image with 640 width can't be found use the 2nd image
-    if (!bandPic) bandPic = data.artists.items[0].images[1].url;
+    //Get the band picture
+    var bandPic = getBandPicture(data.artists.items[0].images);
+    //Search for shows and create the card
     seatGeekSearch(data.artists.items[0].name, bandPic, data.artists.items[0].id);
-
+    //Get the related arists
     getRelatedArtist(data.artists.items[0].id, function(data) {
+        //Put the related artists into bandArray
         for (var i = 0; i < data.artists.length; i++) {
             bandArray.push(data.artists[i]);
         }
-
+        //Get the related arists band pictures, shows, and create their cards
         for (var i = 0; i < bandArray.length; i++) {
-            var bandPic = false;
-            //Try to find an image with 640px width
-            for (var j = 0; j < bandArray[i].images.length; j++) {
-                if (bandArray[i].images[j].width === 640) {
-                    var bandPic = bandArray[i].images[j].url;
-                }
-            }
-            //If an image with 640 width can't be found use the 2nd image
-            if (!bandPic) bandPic = bandArray[i].images[1].url;
+            var bandPic = getBandPicture(bandArray[i].images);
             seatGeekSearch(bandArray[i].name, bandPic, bandArray[i].id);
         }
     });
-
 });
 
 function spotifySearch(searchQuery, callbackFunc) {
@@ -116,6 +102,20 @@ function getRelatedArtist(artistId, callbackFunc) {
     }).fail(function(e) {
         console.log("Getting related artist failed" + e);
     });
+}
+
+function getBandPicture(images) {
+    var bandPic = false;
+    //Try to find an image with 640px width
+    for (var i = 0; i < images.length; i++) {
+        if (images[i].width === 640) {
+            var bandPic = images[i].url;
+        }
+    }
+    //If an image with 640 width can't be found use the 2nd image
+    if (!bandPic) bandPic = images[1].url;
+    
+    return bandPic;
 }
 
 //
