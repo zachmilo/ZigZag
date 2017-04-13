@@ -185,6 +185,7 @@ function cardCreate(name, image, bandId) {
             ),
             $("<li>")
             .append($("<a>")
+                .attr("id", bandId)
                 .addClass("btn-floating amber darken-1 spotify activator")
                 .append($("<i>")
                     .addClass("material-icons")
