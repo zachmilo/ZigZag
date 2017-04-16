@@ -254,6 +254,8 @@ function addDates(index, id) {
     //keep track of the number of times addDates() has been run so masonry can be enabled after the last time
     runs++;
     if (runs === bandArray.length + 1) {
-        initMasonry();
+        setTimeout(function() {
+            initMasonry();
+        }, 100);
     }
 }
