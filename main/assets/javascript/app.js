@@ -63,11 +63,11 @@ $(() => {
     $('.modal').modal();
     //Populate the iframe when the volume_up icon is clicked
     $('body').on('click', '.spotify', function() {
-        if ($(this).closest('.card-image').next().next().children('iframe').length === 0) {
+        var cardReveal = $(this).closest('.card-image').next().next();
+        if (cardReveal.children('iframe').length === 0) {
             //If there isn't already an iframe when clicked, create one
-            var _that = $(this);
             spotifyIFrame($(this).attr('id'), function(frame) {
-                _that.closest('.card-image').next().next().append(frame);
+                cardReveal.append(frame);
             })
         }
     })

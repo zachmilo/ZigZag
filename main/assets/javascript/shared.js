@@ -61,13 +61,13 @@ function spotifySearch(searchQuery, callbackFunc) {
 
 function spotifyIFrame(artistId, callbackFunc) {
 
-    var albumId = "";
-
     $.ajax({
-        url: "https://api.spotify.com/v1/artists/" + artistId + "/albums",
+        url: "https://api.spotify.com/v1/artists/" + artistId + "/top-tracks?country=US",
     }).done(function(data) {
-        var albumId = Math.floor((Math.random() * data.items.length));
-        var iSrc = "https://embed.spotify.com/?uri=spotify%3Aalbum%3A" + data.items[albumId].id + "&theme=white"
+
+        var trackId = Math.floor(Math.random() * data.tracks.length);
+        var iSrc = "https://embed.spotify.com/?uri=spotify:track:" +
+            data.tracks[trackId].id + "&theme=white"
         var frame = $("<iframe>")
             .attr({
                 src: iSrc,
@@ -107,14 +107,19 @@ function getRelatedArtist(artistId, callbackFunc) {
 function getBandPicture(images) {
     var bandPic = false;
     //Try to find an image with 640px width
-    for (var i = 0; i < images.length; i++) {
-        if (images[i].width === 640) {
-            var bandPic = images[i].url;
+    if (images.length > 0) {
+        for (var i = 0; i < images.length; i++) {
+            if (images[i].width === 640) {
+                var bandPic = images[i].url;
+            }
         }
+        //If an image with 640 width can't be found use the 2nd image
+        if (!bandPic) bandPic = images[1].url;
+    } else {
+        //If the artist has no images on spotify then it'll use the no-pic default
+        bandPic = "main/assets/media/images/no-pic.png";
     }
-    //If an image with 640 width can't be found use the 2nd image
-    if (!bandPic) bandPic = images[1].url;
-    
+
     return bandPic;
 }
 
@@ -138,7 +143,8 @@ function timeFormat() {
 function seatGeekSearch(band, img, bandId) {
     eventIndex = 0;
     if (userRange === 0) {
-        var seatgeekURL = "https://api.seatgeek.com/2/events?q=" + band + "&geoip=" + zipcode + "&range=" + defaultRange + "mi&per_page=" + perPage + "&client_id=" + seatgeekAPIKey;
+        var bandWithoutAnd = band.replace(" & ", " ");
+        var seatgeekURL = "https://api.seatgeek.com/2/events?q=" + bandWithoutAnd + "&geoip=" + zipcode + "&range=" + defaultRange + "mi&per_page=" + perPage + "&client_id=" + seatgeekAPIKey;
 
         $.ajax({
             url: seatgeekURL,
@@ -153,7 +159,7 @@ function seatGeekSearch(band, img, bandId) {
             runs++;
         });
     } else {
-        var seatgeekURL = "https://api.seatgeek.com/2/events?q=" + band + "&geoip=" + zipcode + "&range=" + defaultRange + "mi&per_page=" + perPage + "&client_id=" + seatgeekAPIKey;
+        var seatgeekURL = "https://api.seatgeek.com/2/events?q=" + bandWithoutAnd + "&geoip=" + zipcode + "&range=" + defaultRange + "mi&per_page=" + perPage + "&client_id=" + seatgeekAPIKey;
 
         $.ajax({
             url: seatgeekURL,
@@ -248,6 +254,8 @@ function addDates(index, id) {
     //keep track of the number of times addDates() has been run so masonry can be enabled after the last time
     runs++;
     if (runs === bandArray.length + 1) {
-        initMasonry();
+        setTimeout(function() {
+            initMasonry();
+        }, 100);
     }
 }
