@@ -145,13 +145,14 @@ h4 {
     box-shadow: 0 8px 6px -6px #3E380F;
 }
 
-.card-title {
+.card-title,
+.modal-action {
     font-family: 'Permanent Marker', cursive;
+    color: black;
 }
 
 .pink {
     background-color: deeppink;
-
 }
 
 .golden {
@@ -192,4 +193,21 @@ ul.card-action-buttons li {
 
 .card-reveal {
     overflow-y: hidden !important;
+}
+
+.modal-content h4 {
+    /*font-family: 'Cuprum', sans-serif;*/
+    font-family: 'Permanent Marker', cursive;
+}
+
+.waves-effect.waves-darkslateblue .waves-ripple {
+    background-color: rgba(72, 61, 139, 0.65);
+}
+
+.waves-effect.waves-deeppink .waves-ripple {
+    background-color: rgba(255, 20, 147, 0.65);
+}
+
+#auth-error {
+    display: block;
 }
