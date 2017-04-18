@@ -240,7 +240,7 @@ function checkCompletion() {
     if (runs === bandArray.length + 1) {
         setTimeout(function() {
             initMasonry();
-        }, 100);
+        }, 250);
     }
 }
 

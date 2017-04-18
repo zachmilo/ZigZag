@@ -44,15 +44,31 @@ $(() => {
         validateSearch($('#band_name').val().trim(), $('#location').val().trim());
     })
 
+    //Sign-in buttons
+    $('.sign-in').on('click', function() {
+        //Clear any previous errors
+        $('#auth-error').text('');
+    })
+
     //Auth Modal click events
     $('#sign-up').on('click', function(event) {
-        event.preventDefault();
-        handleSignUp();
+        var email = $('#email').val().trim();
+        var password = $('#password').val().trim();
+        handleSignUp(email, password, function(success) {
+            $('#auth-modal').modal('close');
+        }, function(failure) {
+            $('#auth-error').text(failure);
+        });
     })
 
     $('#sign-in').on('click', function(event) {
-        event.preventDefault();
-        toggleSignIn();
+        var email = $('#email').val().trim();
+        var password = $('#password').val().trim();
+        toggleSignIn(email, password, function(success) {
+            $('#auth-modal').modal('close');
+        }, function(failure) {
+            $('#auth-error').text(failure);
+        });
     })
 
     $('#verify-email').on('click', function(event) {
