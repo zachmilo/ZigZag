@@ -1,19 +1,6 @@
 "use strict"
 
 $(() => {
-    //Load the appropriate page based on the URI.
-    var currentPage = window.location.href.split('/');
-    switch (currentPage[currentPage.length - 1]) {
-        case 'index.html':
-            break;
-        case 'results.html':
-            loadResults();
-            break;
-        case 'favorties.html':
-            break;
-        default:
-            break;
-    }
 
     //Main Page
     $('#main_button').on('click', function(event) {
