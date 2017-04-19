@@ -5,39 +5,22 @@ firebase.initializeApp(firebaseConfig);
 /**
  * Handles the sign in button press.
  */
-function toggleSignIn() {
+function toggleSignIn(email, password, onSucess, onFailure) {
     if (firebase.auth().currentUser) {
         // [START signout]
         firebase.auth().signOut();
         // [END signout]
     } else {
-        var email = document.getElementById('email').value;
-        var password = document.getElementById('password').value;
         if (email.length < 4) {
-            alert('Please enter an email address.');
-            return;
+            return onFailure('Please enter a valid email address.');
         }
         if (password.length < 4) {
-            alert('Please enter a password.');
-            return;
+            return onFailure('Please enter a valid password.');
         }
         // Sign in with email and pass.
         // [START authwithemail]
         firebase.auth().signInWithEmailAndPassword(email, password).then(function(data) {
-            // $.ajax({
-            //         url: "/results.html",
-            //         type: "get",
-            //         dataType: "html",
-            //
-            //         success: function(data) {
-            //             // $("#test").append(data);
-            //             console.log(data);
-            //         },
-            //         error: function(error) {
-            //             console.log(error);
-            //         }
-            //     });
-            // window.location = "/results.html";
+            return onSucess(true);
         }).catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
@@ -45,9 +28,9 @@ function toggleSignIn() {
             console.log(errorMessage);
             // [START_EXCLUDE]
             if (errorCode === 'auth/wrong-password') {
-                alert('Wrong password.');
+                return onFailure('Wrong password.');
             } else {
-                alert(errorMessage);
+                return onFailure(errorMessage);
             }
             console.log(error);
             document.getElementById('sign-in').disabled = false;
@@ -62,30 +45,33 @@ function toggleSignIn() {
 /**
  * Handles the sign up button press.
  */
-function handleSignUp() {
-    var email = document.getElementById('email').value;
-    var password = document.getElementById('password').value;
+function handleSignUp(email, password, onSucess, onFailure) {
     if (email.length < 4) {
-        alert('Please enter an email address.');
-        return;
+        return onFailure('Please enter a valid email address.');
     }
     if (password.length < 4) {
-        alert('Please enter a password.');
-        return;
+        return onFailure('Please enter a longer password.');
     }
-    // Sign in with email and pass.
+    // Sign in with email and pass.<div></div>
     // [START createwithemail]
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+
+    firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
+        sendEmailVerification();
+        return onSucess(true)
+    }).catch(function(error) {
         // Handle Errors here.
+                console.log(error);
         var errorCode = error.code;
         var errorMessage = error.message;
         // [START_EXCLUDE]
         if (errorCode == 'auth/weak-password') {
-            alert('The password is too weak.');
+            return onFailure('The password is too weak.');
+        } else if (errorCode == 'auth/invalid-email') {
+            return onFailure('Please enter a valid email address.');
         } else {
-            alert(errorMessage);
+            return onFailure(errorMessage);
         }
-        console.log(error);
+
         // [END_EXCLUDE]
     });
     // [END createwithemail]
@@ -137,11 +123,13 @@ function sendPasswordReset() {
 function initApp() {
     // Listening for auth state changes.
     // [START authstatelistener]
+    console.log('Initializing firebase auth ...')
     firebase.auth().onAuthStateChanged(function(user) {
+        console.log('User state change ' + user);
         // [START_EXCLUDE silent]
-        document.getElementById('verify-email').disabled = true;
+        // document.getElementById('verify-email').disabled = true;
         // [END_EXCLUDE]
-        if (user) {
+        if (user != null) {
             // User is signed in.
             var displayName = user.displayName;
             var email = user.email;
@@ -151,19 +139,19 @@ function initApp() {
             var uid = user.uid;
             var providerData = user.providerData;
             // [START_EXCLUDE]
-            document.getElementById('sign-in-status').textContent = 'Signed in';
+            // document.getElementById('sign-in-status').textContent = 'Signed in';
             document.getElementById('sign-in').textContent = 'Sign out';
-            document.getElementById('account-details').textContent = JSON.stringify(user, null, '  ');
+            // document.getElementById('account-details').textContent = JSON.stringify(user, null, '  ');
             if (!emailVerified) {
-                document.getElementById('verify-email').disabled = false;
+                // document.getElementById('verify-email').disabled = false;
             }
             // [END_EXCLUDE]
         } else {
             // User is signed out.
             // [START_EXCLUDE]
-            document.getElementById('sign-in-status').textContent = 'Signed out';
+            // document.getElementById('sign-in-status').textContent = 'Signed out';
             document.getElementById('sign-in').textContent = 'Sign in';
-            document.getElementById('account-details').textContent = 'null';
+            // document.getElementById('account-details').textContent = 'null';
             // [END_EXCLUDE]
         }
         // [START_EXCLUDE silent]
@@ -172,12 +160,9 @@ function initApp() {
         // [END_EXCLUDE]
     });
     // [END authstatelistener]
-    document.getElementById('sign-in').addEventListener('click', toggleSignIn, false);
-    document.getElementById('sign-up').addEventListener('click', handleSignUp, false);
-    document.getElementById('verify-email').addEventListener('click', sendEmailVerification, false);
-    document.getElementById('password-reset').addEventListener('click', sendPasswordReset, false);
 }
 
 window.onload = function() {
+    console.log('Firebase loaded ...');
     initApp();
 };
