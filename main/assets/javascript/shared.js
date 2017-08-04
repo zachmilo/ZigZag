@@ -27,21 +27,39 @@ var eventIndex = 0;
 var perPage = 10;
 var runs = 0;
 
-function spotifySearch(searchQuery, onSuccess, onFailure) {
+spotifySearch(bandName, function(data) {
+    //Get the band picture
+    var bandPic = getBandPicture(data.artists.items[0].images);
+    //Search for shows and create the card
+    seatGeekSearch(data.artists.items[0].name, bandPic, data.artists.items[0].id);
+    //Get the related arists
+    getRelatedArtist(data.artists.items[0].id, function(data) {
+        //Put the related artists into bandArray
+        for (var i = 0; i < data.artists.length; i++) {
+            bandArray.push(data.artists[i]);
+        }
+        //Get the related arists band pictures, shows, and create their cards
+        for (var i = 0; i < bandArray.length; i++) {
+            var bandPic = getBandPicture(bandArray[i].images);
+            seatGeekSearch(bandArray[i].name, bandPic, bandArray[i].id);
+        }
+    });
+});
+
+function spotifySearch(searchQuery, callbackFunc) {
 
     var buildQuery = _.replace(_.trim(searchQuery), " ", "+");
 
     $.ajax({
         url: "https://api.spotify.com/v1/search?query=" + buildQuery + "&type=artist&offset=0&limit=20",
     }).done(function(data) {
-        return onSuccess(data);
+        return callbackFunc(data);
     }).fail(function(e) {
         console.log("An error occured trying with search query" + e);
-        return onFailure(e);
     });
 }
 
-function spotifyIFrame(artistId, onSuccess, onFailure) {
+function spotifyIFrame(artistId, callbackFunc) {
 
     $.ajax({
         url: "https://api.spotify.com/v1/artists/" + artistId + "/top-tracks?country=US",
@@ -58,7 +76,7 @@ function spotifyIFrame(artistId, onSuccess, onFailure) {
             })
             .css({ "width": "100%", "height": "80" });
 
-        return onSuccess(frame);
+        return callbackFunc(frame);
 
     }).fail(function(e) {
         console.log("An error occured trying to get album" + e);
@@ -75,12 +93,12 @@ function initMasonry() {
     });
 }
 
-function getRelatedArtist(artistId, onSuccess, onFailure) {
+function getRelatedArtist(artistId, callbackFunc) {
 
     $.ajax({
         url: "https://api.spotify.com/v1/artists/" + artistId + "/related-artists",
     }).done(function(data) {
-        return onSuccess(data);
+        return callbackFunc(data);
     }).fail(function(e) {
         console.log("Getting related artist failed" + e);
     });
@@ -101,6 +119,7 @@ function getBandPicture(images) {
         //If the artist has no images on spotify then it'll use the no-pic default
         bandPic = "main/assets/media/images/no-pic.png";
     }
+
     return bandPic;
 }
 
@@ -115,12 +134,13 @@ function timeFormat() {
                 var eventObj = closeEvents[i].events[j];
                 var timeFormat = moment(closeEvents[i].events[j].datetime_local).format("h:mma ddd, MMM DD");
                 eventObj.date_format = timeFormat;
+
             }
         }
     }
 }
 
-function seatGeekSearch(band, img, bandId, onSuccess, onFailure) {
+function seatGeekSearch(band, img, bandId) {
     eventIndex = 0;
     if (userRange === 0) {
         var bandWithoutAnd = band.replace(" & ", " ");
@@ -150,7 +170,7 @@ function seatGeekSearch(band, img, bandId, onSuccess, onFailure) {
     }
 }
 
-function cardCreate(name, image, bandId, callback) {
+function cardCreate(name, image, bandId) {
     var uniqueId = _.uniqueId();
     var arrayIndex = uniqueId - 1;
 
@@ -207,7 +227,7 @@ function cardCreate(name, image, bandId, callback) {
     addDates(uniqueId - 1, uniqueId);
 }
 
-function addDates(index, id, callback) {
+function addDates(index, id) {
     for (var i = 0; i < closeEvents[index].events.length; i++) {
         if (closeEvents[index].events[i].type === "concert" || closeEvents[index].events[i].type === "broadway_tickets_national" || closeEvents[index].events[i].type === "comedy") {
             var eventName = $("<p>")
@@ -233,49 +253,9 @@ function addDates(index, id, callback) {
     }
     //keep track of the number of times addDates() has been run so masonry can be enabled after the last time
     runs++;
-    checkCompletion();
-}
-
-function checkCompletion() {
     if (runs === bandArray.length + 1) {
         setTimeout(function() {
             initMasonry();
-        }, 250);
+        }, 100);
     }
-}
-
-function setSessionStorage(bandName, location) {
-    sessionStorage.setItem('Hear+Now:bandName', bandName);
-    sessionStorage.setItem('Hear+Now:location', location);
-}
-
-function loadNewResults(id, images) {
-    setSessionStorage($('#band_name').val().trim(), $('#location').val().trim());
-    window.open("results.html", "_self");
-}
-
-//Validate the band name with Spotify and the zipcode with regex
-function validateSearch(bandName, location) {
-    var reg = /^\d+$/;
-
-    if (reg.test(location) && location.length === 5) {
-        location = true;
-    } else {
-        $('#location').val('');
-        $('#location').attr('placeholder', 'PLEASE ENTER A VALID ZIP CODE');
-        location = false;
-    }
-
-    $.ajax({
-        url: "https://api.spotify.com/v1/search?query=" + bandName + "&type=artist,track,album&offset=0&limit=20",
-    }).done(function(data) {
-        if (data.artists.total != 0 && location) {
-            loadNewResults(data.artists.items[0].id, data.artists.items[0].images);
-        } else if (data.artists.total === 0) {
-            $('#band_name').val('');
-            $('#band_name').attr('placeholder', 'PLEASE ENTER A VALID BAND NAME');
-        }
-    }).fail(function(e) {
-        console.log("An error occurred trying with search query" + e);
-    });
 }
