@@ -21,12 +21,12 @@
                     <a href="#search-modal"><i class="material-icons left">search</i>SEARCH</a>
                 </li>
                 <li>
-                    <a href="#auth-modal" class='sign-in'><i class="material-icons left">perm_identity</i>SIGN IN</a>
+                    <a href="#auth-modal"><i class="material-icons left">perm_identity</i>SIGN IN</a>
                 </li>
             </ul>
             <ul id="nav-mobile" class="right hide-on-med-and-up">
                 <li>
-                    <a href="#auth-modal" class='waves-effect waves-light sign-in'><i class="material-icons left">perm_identity</i></a>
+                    <a href="#auth-modal" class='waves-effect waves-light'><i class="material-icons left">perm_identity</i></a>
                 </li>
             </ul>
             <ul id="nav-mobile" class="left hide-on-med-and-up">
@@ -36,7 +36,7 @@
             </ul>
             <ul id="nav-mobile" class="right hide-on-large-only hide-on-small-only">
                 <li>
-                    <a href="#auth-modal" class='sign-in'><i class="material-icons left">perm_identity</i>SIGN IN</a>
+                    <a href="#auth-modal"><i class="material-icons left">perm_identity</i>SIGN IN</a>
                 </li>
             </ul>
             <ul id="nav-mobile" class="left hide-on-large-only hide-on-small-only">
@@ -48,7 +48,7 @@
     </nav>
     <div id="search-modal" class="modal">
         <div class="modal-content">
-            <h4 class='center-align black-text'>SEARCH</h4>
+            <h4 class='center-align black-text'>Search</h4>
             <ul>
                 <li>
                     <input value="" id="band_name" type="text" class="validate center-align" placeholder="BAND NAME">
@@ -59,31 +59,30 @@
             </ul>
         </div>
         <div class="modal-footer">
-            <a href="#!" id='new-search' class="modal-action waves-effect waves-deeppink btn-flat">Go!</a>
-            <a href="#!" class="modal-action modal-close waves-effect waves-deeppink btn-flat">Oops!</a>
+            <a href="#!" id='new-search' class="modal-action btn-flat">Go!</a>
+            <a href="#!" class="modal-action modal-close btn-flat">Oops!</a>
         </div>
     </div>
     <div id="auth-modal" class="modal">
-        <div class="modal-content center-align">
-            <h4 class=' black-text'>SIGN IN</h4>
-            <p>Enter your email and password below sign in</p>
-            <ul>
-                <li>
-                    <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="EMAIL" />
-                </li>
-                <li>
-                    <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="password" name="password" placeholder="PASSWORD" />
-                </li>
-            </ul>
-            <a href="#!" class="modal-action waves-effect waves-deeppink btn-flat" id="sign-in" name="signin">SIGN IN</a>
-            <span id='auth-error' class='red-text text-accent-4'></span>
+        <div class="modal-content">
+            <h4 class='center-align black-text'>Sign-in</h4>
+            <div class="center-align">
+                <p>Enter an email and password below and either sign in to an existing account or sign up</p>
+                <ul>
+                    <li>
+                        <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email" name="email" placeholder="Email" />
+                    </li>
+                    <li>
+                        <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="password" name="password" placeholder="Password" />
+                    </li>
+                </ul>
+            </div>
         </div>
         <div class="modal-footer center-align">
-            <span>Don't have an account?</span>
-            <a href='signup.html'>Sign up!</a>
-            <!--             <a href="#!" class="modal-action btn-flat" id="sign-up" name="signup">Sign Up</a> -->
-            <!--            <a href="#!" class="modal-action btn-flat" disabled id="verify-email" name="verify-email">Send Email Verification</a>
-            <a href="#!" class="modal-action btn-flat" id="password-reset" name="verify-email">Send Password Reset Email</a> -->
+            <a href="#!" class="modal-action btn-flat" id="sign-in" name="signin">Sign In</a>
+            <a href="#!" class="modal-action btn-flat" id="sign-up" name="signup">Sign Up</a>
+            <a href="#!" class="modal-action btn-flat" disabled id="verify-email" name="verify-email">Send Email Verification</a>
+            <a href="#!" class="modal-action btn-flat" id="password-reset" name="verify-email">Send Password Reset Email</a>
         </div>
     </div>
     <div class="row" id="masonry-grid"></div>
@@ -95,10 +94,9 @@
 <script src="node_modules/mocha/mocha.js"></script>
 <script src="node_modules/moment/moment.js"></script>
 <script src="main/assets/config.js"></script>
-<!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCqmi8XbEgdxQWsUS9H5t27rAnmotbqFhA" type="text/javascript"></script> -->
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyCqmi8XbEgdxQWsUS9H5t27rAnmotbqFhA" type="text/javascript"></script>
 <script src="main/assets/javascript/shared.js"></script>
 <script src="main/assets/javascript/app.js"></script>
-<script src="main/assets/javascript/results.js"></script>
 <script src="https://www.gstatic.com/firebasejs/3.7.5/firebase.js"></script>
 <script src="main/assets/javascript/auth.js"></script>
 
