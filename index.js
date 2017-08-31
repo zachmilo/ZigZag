@@ -1,20 +1,8 @@
-// var express = require('express');
-// var app = express();
-// var path = require('path');
-//
-// app.set('port', (process.env.PORT || 5000));
-// // viewed at http://localhost:8080
-// app.get('/', function(req, res) {
-//     res.sendFile(path.join(__dirname + 'index.html'));
-// });
-//
-// app.listen(app.get('port'), function() {
-//     console.log('Node app is running on port', app.get('port'));
-// });
-
-
-var express = require('express');
+var express = require("express");
+var apiCall = require('request');
 var app = express();
+const client = process.env.spotifyClient;
+const secret = process.env.SpotifySecret;
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -39,6 +27,28 @@ app.get('/test', function(request, response) {
   response.render('test/runTest');
 });
 
+app.get('/spotifyId', getSpotifyToken, function(request, response) {
+  response.send(response.spotifyToken);
+});
+
+function getSpotifyToken(request,response,next) {
+  var options = {
+    url: "https://accounts.spotify.com/api/token",
+    form: {
+      grant_type: "client_credentials"
+    },
+    headers:{
+      "Authorization": "Basic " + (new Buffer(client + ":" + secret).toString("base64"))
+    },
+    json:true
+  };
+  apiCall.post(options,function(error,res,body) {
+    if(!error && res.statusCode === 200) {
+      response.spotifyToken = body;
+      next();
+    }
+  });
+}
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));

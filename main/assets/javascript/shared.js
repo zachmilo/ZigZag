@@ -5,8 +5,7 @@
  * returns: the search results
  */
 
-var googleAPIKey = GoogleMapsEmbedConfig.apiKey;
-var seatgeekAPIKey = SeatGeekConfig.apiKey;
+var seatgeekAPIKey = "ODczNzQ4N3wxNTA0MjE2NDY3LjA4";
 var bandName = sessionStorage.getItem('Hear+Now:bandName');
 var closeEvents = [];
 var eventsOrdered = [];
@@ -27,6 +26,7 @@ var eventIndex = 0;
 var perPage = 10;
 var runs = 0;
 
+hasKey();
 spotifySearch(bandName, function(data) {
     //Get the band picture
     var bandPic = getBandPicture(data.artists.items[0].images);
@@ -49,9 +49,9 @@ spotifySearch(bandName, function(data) {
 function spotifySearch(searchQuery, callbackFunc) {
 
     var buildQuery = _.replace(_.trim(searchQuery), " ", "+");
-
     $.ajax({
         url: "https://api.spotify.com/v1/search?query=" + buildQuery + "&type=artist&offset=0&limit=20",
+        headers: { "Authorization":"Bearer "+ sessionStorage.spotifyKey }
     }).done(function(data) {
         return callbackFunc(data);
     }).fail(function(e) {
@@ -63,6 +63,7 @@ function spotifyIFrame(artistId, callbackFunc) {
 
     $.ajax({
         url: "https://api.spotify.com/v1/artists/" + artistId + "/top-tracks?country=US",
+        headers: { "Authorization":"Bearer "+ sessionStorage.spotifyKey }
     }).done(function(data) {
 
         var trackId = Math.floor(Math.random() * data.tracks.length);
@@ -97,6 +98,7 @@ function getRelatedArtist(artistId, callbackFunc) {
 
     $.ajax({
         url: "https://api.spotify.com/v1/artists/" + artistId + "/related-artists",
+        headers: { "Authorization":"Bearer "+ sessionStorage.spotifyKey }
     }).done(function(data) {
         return callbackFunc(data);
     }).fail(function(e) {

@@ -1,5 +1,7 @@
 "use strict"
 
+hasKey();
+
 $(() => {
     //Main Page
     $('#main_button').on('click', function(event) {
@@ -55,7 +57,8 @@ $(() => {
     $('#password-reset').on('click', function(event) {
             event.preventDefault();
             sendPasswordReset();
-        })
+    })
+
     //Populate the forms fields on the search modal with the previous input
     $('#band_name').val(sessionStorage.getItem('Hear+Now:bandName'));
     $('#location').val(sessionStorage.getItem('Hear+Now:location'));
@@ -78,6 +81,19 @@ function setSessionStorage(bandName, location) {
     sessionStorage.setItem('Hear+Now:location', location);
 }
 
+function hasKey() {
+  if(!sessionStorage.spotifyKey) {
+    $.ajax({
+        url: "/spotifyId"
+    }).done(function(data) {
+      sessionStorage.spotifyKey = data.access_token;
+
+    }).fail(function(e) {
+        console.log("Getting key failed because " + e);
+    });
+  }
+}
+
 function loadNewResults(id, images) {
     setSessionStorage($('#band_name').val().trim(), $('#location').val().trim());
     window.open("results.html", "_self");
@@ -93,9 +109,9 @@ function quickValidate(bandName, location) {
         $('#location').attr('placeholder', 'PLEASE ENTER A VALID ZIP CODE');
         location = false;
     }
-
     $.ajax({
         url: "https://api.spotify.com/v1/search?query=" + bandName + "&type=artist,track,album&offset=0&limit=20",
+        headers: { "Authorization":"Bearer "+ sessionStorage.spotifyKey }
     }).done(function(data) {
         if (data.artists.total != 0 && location) {
             loadNewResults(data.artists.items[0].id, data.artists.items[0].images);
