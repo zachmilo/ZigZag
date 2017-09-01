@@ -89,7 +89,7 @@ function hasKey() {
       sessionStorage.spotifyKey = data.access_token;
 
     }).fail(function(e) {
-        console.log("Getting key failed because " + e);
+        console.log("Getting key failed because " + JSON.stringify(e));
     });
   }
 }
@@ -98,6 +98,7 @@ function loadNewResults(id, images) {
     setSessionStorage($('#band_name').val().trim(), $('#location').val().trim());
     window.open("results.html", "_self");
 }
+
 //Validate the band name with Spotify and the zipcode with regex
 function quickValidate(bandName, location) {
     var reg = /^\d+$/;
