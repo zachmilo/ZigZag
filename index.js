@@ -1,8 +1,8 @@
 var express = require("express");
 var apiCall = require('request');
 var app = express();
-const client = process.env.spotifyClient;
-const secret = process.env.SpotifySecret;
+const client = process.env.spotifyClient || "05d5da3b5eda442d9994c27646b68a55";
+const secret = process.env.SpotifySecret || "ee5809c6468c412d86b44e918c2905ca";
 
 app.set('port', (process.env.PORT || 5000));
 

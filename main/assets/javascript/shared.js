@@ -181,25 +181,20 @@ function cardCreate(name, image, bandId) {
     var imgDiv = $("<div>").addClass("card-image");
     var bandImg = $("<img>").attr("src", image);
 
-    var cardButtons = $("<ul>")
-        .addClass("card-action-buttons")
-        .append($("<li>")
-            .append($("<a>")
-                .addClass("btn-floating favorite")
-                .append($("<i>")
-                    .addClass("material-icons")
-                    .text("favorite")
-                )
-            ),
-            $("<li>")
-            .append($("<a>")
-                .attr("id", bandId)
-                .addClass("btn-floating amber darken-1 spotify activator")
-                .append($("<i>")
-                    .addClass("material-icons")
-                    .text("volume_up")
-                )
+    var cardButtons = $("<ul>").addClass("card-action-buttons").append(
+        $("<li>").append(
+          $("<a>").addClass("btn-floating favorite").append(
+            $("<i>").addClass("material-icons").text("favorite")
+          )
+        ),$("<li>").append(
+            $("<a>").attr("id", bandId)
+            .addClass("btn-floating amber darken-1 spotify activator")
+            .append(
+              $("<i>")
+                .addClass("material-icons")
+                .text("volume_up")
             )
+          )
         );
 
     var cardContent = $("<div>")
@@ -211,11 +206,9 @@ function cardCreate(name, image, bandId) {
         .text(name);
 
     var cardReveal = $("<div>").addClass("card-reveal");
-    var revealSpan = $("<span>")
-        .addClass("card-title grey-text text-darken-4")
-        .append($("<i>")
-            .addClass("material-icons right text-white")
-            .text("close")
+    var revealSpan = $("<span>").addClass("card-title grey-text text-darken-4")
+        .append(
+          $("<i>").addClass("material-icons right text-white").text("close")
         );
 
     imgDiv.append(bandImg, cardButtons);
@@ -230,29 +223,31 @@ function cardCreate(name, image, bandId) {
 }
 
 function addDates(index, id) {
+    $("#"+id).append("<ul>").addClass("collection");
     for (var i = 0; i < closeEvents[index].events.length; i++) {
         if (closeEvents[index].events[i].type === "concert" || closeEvents[index].events[i].type === "broadway_tickets_national" || closeEvents[index].events[i].type === "comedy") {
-            var eventName = $("<p>")
-                .addClass("event-title")
-                .append(closeEvents[index].events[i].short_title)
-                .append(": ");
-            var eventDates = $("<p>")
-                .append(closeEvents[index].events[i].date_format)
+
+            var eventName = $("<li>")
+                .addClass("collection-item")
+                .append("<div>"+closeEvents[index].events[i].short_title)
+                .append(" "+closeEvents[index].events[i].date_format)
                 .append(" @ ")
                 .append(closeEvents[index].events[i].venue.name)
                 .append(" in ")
-                .append(closeEvents[index].events[i].venue.display_location)
-                .append(" - ");
-            var link = $("<a>")
-                .attr({
+                .append(closeEvents[index].events[i].venue.display_location);
+
+            var link = $("<a>").attr({
                     href: closeEvents[index].events[i].url,
                     target: "_blank"
                 })
-                .text("Tickets");
-            eventDates.append(link);
-            $("#" + id).append(eventName, eventDates);
+                .addClass("secondary-content")
+                .append("Tickets")
+                .append("</a></div></li>");
+            $("#" +id+ " ul").append(eventName.append(link));
         }
+        $("#"+id).append("</ul>");
     }
+    //<li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
     //keep track of the number of times addDates() has been run so masonry can be enabled after the last time
     runs++;
     if (runs === bandArray.length + 1) {
