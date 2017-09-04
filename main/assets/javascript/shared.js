@@ -42,7 +42,15 @@ spotifySearch(bandName, function(data) {
         for (var i = 0; i < bandArray.length; i++) {
             var bandPic = getBandPicture(bandArray[i].images);
             seatGeekSearch(bandArray[i].name, bandPic, bandArray[i].id);
+            //keep track of the number of times addDates() has been run so masonry can be enabled after the last time
+            runs++;
+            if (runs === bandArray.length + 1) {
+                setTimeout(function() {
+                    initMasonry();
+                }, 100);
+            }
         }
+
     });
 });
 
@@ -86,11 +94,13 @@ function spotifyIFrame(artistId, callbackFunc) {
 
 function initMasonry() {
     // Add masonry effect
-    var $container = $('#masonry-grid');
+    var $container = $(".masonry-grid");
     // initialize
     $container.masonry({
-        columnWidth: '.col',
-        itemSelector: '.col',
+        percentPosition:true,
+        horizontalOrder:true,
+        columnWidth: ".grid-sizer",
+        itemSelector: ".grid-item"
     });
 }
 
@@ -176,7 +186,7 @@ function cardCreate(name, image, bandId) {
     var uniqueId = _.uniqueId();
     var arrayIndex = uniqueId - 1;
 
-    var newCol = $("<div>").addClass("col s12 m6 l4 xl3");
+    var newCol = $("<div>").addClass("grid-item");
     var newCard = $("<div>").addClass("card hoverable");
     var imgDiv = $("<div>").addClass("card-image");
     var bandImg = $("<img>").attr("src", image);
@@ -217,9 +227,9 @@ function cardCreate(name, image, bandId) {
     newCard.append(imgDiv, cardContent, cardReveal);
 
     newCol.append(newCard);
-    $("#masonry-grid").append(newCol);
+    $("#result").after(newCol);
 
-    addDates(uniqueId - 1, uniqueId);
+    // addDates(uniqueId - 1, uniqueId);
 }
 
 function addDates(index, id) {
@@ -227,32 +237,23 @@ function addDates(index, id) {
     for (var i = 0; i < closeEvents[index].events.length; i++) {
         if (closeEvents[index].events[i].type === "concert" || closeEvents[index].events[i].type === "broadway_tickets_national" || closeEvents[index].events[i].type === "comedy") {
 
+          var link = $("<a class=\"waves-effect waves-light btn\">").attr({
+                  href: closeEvents[index].events[i].url,
+                  target: "_blank"
+              })
+              .append("Tickets")
+              .append("</a></span></li>");
+
             var eventName = $("<li>")
                 .addClass("collection-item")
-                .append("<div>"+closeEvents[index].events[i].short_title)
-                .append(" "+closeEvents[index].events[i].date_format)
-                .append(" @ ")
-                .append(closeEvents[index].events[i].venue.name)
-                .append(" in ")
-                .append(closeEvents[index].events[i].venue.display_location);
+                .append("<span class=\"title\">"+closeEvents[index].events[i].short_title)
+                .append("<p>"+closeEvents[index].events[i].date_format
+                + "<br>" + closeEvents[index].events[i].venue.name
+                + "<br>" + closeEvents[index].events[i].venue.display_location
+                + "<br>");
 
-            var link = $("<a>").attr({
-                    href: closeEvents[index].events[i].url,
-                    target: "_blank"
-                })
-                .addClass("secondary-content")
-                .append("Tickets")
-                .append("</a></div></li>");
             $("#" +id+ " ul").append(eventName.append(link));
         }
         $("#"+id).append("</ul>");
-    }
-    //<li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">send</i></a></div></li>
-    //keep track of the number of times addDates() has been run so masonry can be enabled after the last time
-    runs++;
-    if (runs === bandArray.length + 1) {
-        setTimeout(function() {
-            initMasonry();
-        }, 100);
     }
 }

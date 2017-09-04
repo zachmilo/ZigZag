@@ -10,9 +10,40 @@ body {
     border: 1px solid red;
 }
 
-.card-image img {
-    min-width: 100%;
-    max-width: 100%;
+.masonry-grid {
+  margin: 0 auto;
+}
+
+.grid-item {
+  width: 25%;
+  float:left;
+  margin-bottom: 10px;
+}
+
+/* 3 columns by default */
+.grid-sizer { width: 33.333%; }
+
+@media screen and (min-width: 768px) {
+  .card-image img {
+    height: 300px;
+  }
+
+  .grid-item {
+    padding-right: 1%;
+    padding-left: 1%;
+    width: 25%;
+    float:left;
+  }
+  /* 5 columns for larger screens */
+  .grid-sizer { width: 20%; }
+}
+
+@media screen and (max-width: 400px) {
+  .grid-item {
+    width: 100%;
+  }
+  /* 5 columns for larger screens */
+  .grid-sizer { width: 20%; }
 }
 
 video#bgvid {
