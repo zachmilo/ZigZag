@@ -23,7 +23,7 @@ body {
 /* 3 columns by default */
 .grid-sizer { width: 33.333%; }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 401px) {
   .card-image img {
     height: 300px;
   }

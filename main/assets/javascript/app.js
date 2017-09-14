@@ -80,18 +80,36 @@ function setSessionStorage(bandName, location) {
     sessionStorage.setItem('Hear+Now:bandName', bandName);
     sessionStorage.setItem('Hear+Now:location', location);
 }
-
-function hasKey() {
+/*
+  * Gets the spotify API key
+ */
+function hasKey(callbackFunc) {
   if(!sessionStorage.spotifyKey) {
     $.ajax({
         url: "/spotifyId"
     }).done(function(data) {
       sessionStorage.spotifyKey = data.access_token;
+      callbackFunc();
 
     }).fail(function(e) {
-        console.log("Getting key failed because " + JSON.stringify(e));
+        callbackFunc(e);
     });
   }
+}
+
+/*
+  * Updates the spotify API
+ */
+function updateKey(status,retry) {
+  if(!status === 401) {
+    return;
+  }
+  sessionStorage.spotifyKey = "";
+  hasKey(function(error) {
+    if(!error) {
+      $.ajax(this);
+    }
+  });
 }
 
 function loadNewResults(id, images) {
@@ -121,6 +139,7 @@ function quickValidate(bandName, location) {
             $('#band_name').attr('placeholder', 'PLEASE ENTER A VALID BAND NAME');
         }
     }).fail(function(e) {
+        updateKey(e.status,this) //Passing this to retry after token update
         console.log("An error occurred trying with search query" + e);
     });
 }

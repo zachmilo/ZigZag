@@ -8,18 +8,9 @@
 var seatgeekAPIKey = "ODczNzQ4N3wxNTA0MjE2NDY3LjA4";
 var bandName = sessionStorage.getItem('Hear+Now:bandName');
 var closeEvents = [];
-var eventsOrdered = [];
-var chronologicalSort = true;
-var distanceSort = false;
 var bandArray = [];
-var bandArrayIndex = 0;
-var relatedAdded = false;
-var originalSearch = false;
-var distanceDone = false;
 var zipcode = sessionStorage.getItem('Hear+Now:location');
-var userLat = 0;
-var userLon = 0;
-var venueZip = 0;
+
 var defaultRange = 200;
 var userRange = 0;
 var eventIndex = 0;
@@ -63,7 +54,7 @@ function spotifySearch(searchQuery, callbackFunc) {
     }).done(function(data) {
         return callbackFunc(data);
     }).fail(function(e) {
-        console.log("An error occured trying with search query" + e);
+        updateKey(e.status,this) //Passing this to retry after token update
     });
 }
 
@@ -88,7 +79,7 @@ function spotifyIFrame(artistId, callbackFunc) {
         return callbackFunc(frame);
 
     }).fail(function(e) {
-        console.log("An error occured trying to get album" + e);
+        updateKey(e.status,this) //Passing this to retry after token update
     });
 }
 
@@ -112,6 +103,7 @@ function getRelatedArtist(artistId, callbackFunc) {
     }).done(function(data) {
         return callbackFunc(data);
     }).fail(function(e) {
+        updateKey(e.status,this) //Passing this to retry after token update
         console.log("Getting related artist failed" + e);
     });
 }
