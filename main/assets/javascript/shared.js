@@ -140,14 +140,22 @@ function formatshows(bandEvents) {
     }
     for (var i = 1; i < bandEvents.length; i++) {
       var eventObj  = bandEvents[i];
-      var listItem  = $("<li>").addClass("collection-item");
+      var listItem  = $("<li>").addClass("collection-item avatar");
       var bandtitle = $("<span>").text(eventObj.title).addClass("title");
 
       var timeFormat = moment(eventObj.datetime_local).format("h:mma ddd, MMM DD");
       var dateTheater = timeFormat+" @ "+ eventObj.venue.name+"<br>";
       var cityState = eventObj.display_location;
       var eventHtmlFormat = $("<p>").append(dateTheater,cityState);
-      listItem.append(bandtitle,eventHtmlFormat);
+      var seatGeekUrl = $("<a>").addClass("secondary-content")
+                        .attr("href",eventObj.url)
+                        .attr("target","_blank")
+                        .append($("<i>")
+                                .addClass("material-icons")
+                                .text("attach_money")
+                        );
+
+      listItem.append(bandtitle,eventHtmlFormat,seatGeekUrl);
       bandsFormat.push(listItem);
     }
     return bandsFormat;

@@ -223,3 +223,6 @@ ul.card-action-buttons li {
 .card-reveal {
     overflow-y: hidden !important;
 }
+.modal.bottom-sheet {
+  height: 50%;
+}
