@@ -7,7 +7,7 @@
 
 var seatgeekAPIKey = "ODczNzQ4N3wxNTA0MjE2NDY3LjA4";
 var bandName = sessionStorage.getItem('Hear+Now:bandName');
-var closeEvents = [];
+var closeEvents = {};
 var bandArray = [];
 var zipcode = sessionStorage.getItem('Hear+Now:location');
 
@@ -131,18 +131,27 @@ function getBandPicture(images) {
 //
 // THIS IS THE CODE SCOTT WROTE FOR THE SEAT GEEK EVENT LISTINGS AND DISTANCE FUNCTIONS
 //
-function timeFormat() {
-    for (var i = 0; i < closeEvents.length; i++) {
-        if (closeEvents[i].events.length > 0) {
-            for (var j = 0; j < closeEvents[i].events.length; j++) {
-                var eventObj = closeEvents[i].events[j];
-                var timeFormat = moment(closeEvents[i].events[j].datetime_local).format("h:mma ddd, MMM DD");
-                eventObj.date_format = timeFormat;
+function formatshows(bandEvents) {
 
-            }
-        }
+    var bandsFormat = [];
+    if(bandEvents.length <= 1) {
+      bandsFormat[1] = $("<h2>").text("No shows found near you!!");
+      return bandsFormat;
     }
-}
+    for (var i = 1; i < bandEvents.length; i++) {
+      var eventObj  = bandEvents[i];
+      var listItem  = $("<li>").addClass("collection-item");
+      var bandtitle = $("<span>").text(eventObj.title).addClass("title");
+
+      var timeFormat = moment(eventObj.datetime_local).format("h:mma ddd, MMM DD");
+      var dateTheater = timeFormat+" @ "+ eventObj.venue.name+"<br>";
+      var cityState = eventObj.display_location;
+      var eventHtmlFormat = $("<p>").append(dateTheater,cityState);
+      listItem.append(bandtitle,eventHtmlFormat);
+      bandsFormat.push(listItem);
+    }
+    return bandsFormat;
+  }
 
 function seatGeekSearch(band, img, bandId) {
     eventIndex = 0;
@@ -154,9 +163,8 @@ function seatGeekSearch(band, img, bandId) {
             url: seatgeekURL,
             method: "GET"
         }).done(function(response) {
-            closeEvents.push(response);
-            timeFormat();
-            cardCreate(band, img, bandId);
+            console.log(response);
+            cardCreate(band, img, bandId, response.events);
         }).fail(function(e) {
             console.log("An error occured trying SeatGeek with search query" + e);
             //Since no dates can be added but the band is still present in the array increment the run but don't create a card
@@ -174,30 +182,42 @@ function seatGeekSearch(band, img, bandId) {
     }
 }
 
-function cardCreate(name, image, bandId) {
+function cardCreate(name, image, bandId,bandEvents) {
     var uniqueId = _.uniqueId();
     var arrayIndex = uniqueId - 1;
-
+    bandEvents.unshift(bandId);
+    var formattedShows = formatshows(bandEvents);
+    closeEvents[bandId] = formattedShows;
     var newCol = $("<div>").addClass("grid-item");
     var newCard = $("<div>").addClass("card hoverable");
     var imgDiv = $("<div>").addClass("card-image");
-    var bandImg = $("<img>").attr("src", image);
+    var bandImg = $("<img>").attr("src", image).addClass("band-image");
 
     var cardButtons = $("<ul>").addClass("card-action-buttons").append(
         $("<li>").append(
           $("<a>").addClass("btn-floating favorite").append(
             $("<i>").addClass("material-icons").text("favorite")
           )
-        ),$("<li>").append(
-            $("<a>").attr("id", bandId)
-            .addClass("btn-floating amber darken-1 spotify activator")
-            .append(
-              $("<i>")
-                .addClass("material-icons")
-                .text("volume_up")
-            )
+        ),
+        $("<li>").append(
+          $("<a>").attr("id", bandId)
+          .addClass("btn-floating amber darken-1 spotify activator")
+          .append(
+            $("<i>")
+              .addClass("material-icons")
+              .text("volume_up")
           )
-        );
+        ),
+        $("<li>").append(
+          $("<a>").attr("id", bandId)
+          .addClass("btn-floating purple darken-1 spotify activator")
+          .append(
+            $("<i>")
+              .addClass("material-icons")
+              .html("<img src=\"/main/assets/media/images/tickets.svg\">")
+          )
+        )
+      );
 
     var cardContent = $("<div>")
         .addClass("card-content")
@@ -226,8 +246,8 @@ function cardCreate(name, image, bandId) {
 
 function addDates(index, id) {
     $("#"+id).append("<ul>").addClass("collection");
-    for (var i = 0; i < closeEvents[index].events.length; i++) {
-        if (closeEvents[index].events[i].type === "concert" || closeEvents[index].events[i].type === "broadway_tickets_national" || closeEvents[index].events[i].type === "comedy") {
+    for (var i = 0; i < closeEvents[index].length; i++) {
+        if (closeEvents[index].type === "concert" || closeEvents[index].events[i].type === "broadway_tickets_national" || closeEvents[index].events[i].type === "comedy") {
 
           var link = $("<a class=\"waves-effect waves-light btn\">").attr({
                   href: closeEvents[index].events[i].url,

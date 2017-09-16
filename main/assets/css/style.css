@@ -24,7 +24,7 @@ body {
 .grid-sizer { width: 33.333%; }
 
 @media screen and (min-width: 401px) {
-  .card-image img {
+  .band-image {
     height: 300px;
   }
 

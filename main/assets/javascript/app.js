@@ -64,6 +64,16 @@ $(() => {
     $('#location').val(sessionStorage.getItem('Hear+Now:location'));
     //Enable the modal
     $('.modal').modal();
+    $("body").on("click","a[id]:has(img)", function() {
+      var bandId = $(this).attr("id");
+      var hasContent = $("#showListings").children.length;
+      if(hasContent > 0) {
+        $("#showListings").children().remove();
+      }
+      $("#showListings").append(closeEvents[bandId]);
+
+       $('#modal1').modal('open');
+    });
     //Populate the iframe when the volume_up icon is clicked
     $('body').on('click', '.spotify', function() {
         var cardReveal = $(this).closest('.card-image').next().next();
@@ -83,7 +93,7 @@ function setSessionStorage(bandName, location) {
 /*
   * Gets the spotify API key
  */
-function hasKey(callbackFunc) {
+function hasKey() {
   if(!sessionStorage.spotifyKey) {
     $.ajax({
         url: "/spotifyId"
@@ -105,10 +115,14 @@ function updateKey(status,retry) {
     return;
   }
   sessionStorage.spotifyKey = "";
-  hasKey(function(error) {
-    if(!error) {
-      $.ajax(this);
-    }
+  $.ajax({
+      url: "/spotifyId"
+  }).done(function(data) {
+    sessionStorage.spotifyKey = data.access_token;
+    $.ajax(retry);
+
+  }).fail(function(e) {
+      callbackFunc(e);
   });
 }
 
