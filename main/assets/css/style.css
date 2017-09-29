@@ -71,6 +71,10 @@ h5 {
     font-family: 'Permanent Marker', cursive;
     color: aliceblue;
 }
+ul > h2 {
+  color: darkslateblue;
+  text-align: center;
+}
 
 h1,
 .brand-logo {
